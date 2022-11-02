@@ -1,38 +1,32 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "./Css/ClockIn.style.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import ClockInModal from "./Modals/ClockInModal";
 import ErrorModal from "./Modals/ErrorModal";
-import TimeTest from "../../routing/TimeTest";
 import { secure } from "../../Secret";
-import { set } from "date-fns";
 import SideButton from "./Modals/SideButton";
-import TimesheetCreator from "../../graphql/custom/TimesheetCreator";
 import { format } from "date-fns";
 import { listTimeSheets } from "../../graphql/queries";
 import { createTimeSheet } from "../../graphql/mutations";
-import { graphqlOperation } from "aws-amplify";
-import { API } from "aws-amplify";
+
+import { API, graphqlOperation } from "aws-amplify";
 import { updateTimeSheet } from "../../graphql/mutations";
+import {startOfWeek} from 'date-fns'
 
 export function ClockIn() {
   let [successTrigger, setSuccessTrigger] = useState(false);
   let [pin, setPin] = useState("");
-  let [employees, setEmployees] = useState("");
+  let [employeeName, setEmployeeName] = useState("");
   let [errorTrigger, setErrorTrigger] = useState(false);
   let [sideTrigger, setSideTrigger] = useState(false);
+  let [viewTimeSheetInfo, setViewTimeSheetInfo] = useState({});
   var [time, setTime] = useState(new Date());
 
   let Airtable = require("airtable");
   let base = new Airtable({ apiKey: secure }).base("appqrmdFurNYpsDKm");
   let airTableApiEmployeeTable = base("Employees");
 
-  const month = format(time, "MMMM");
-  const year = format(time, "yyyy");
-  const dayNumber = format(time, "d");
-  const dayName = format(time, "EEEE");
-  const actualDate = format(time, "PPPP");
-  const exactTime = format(time, "pp");
+ let navigate = useNavigate();
 
   useEffect(() => {
     var timer = setInterval(() => setTime(new Date()), 1000);
@@ -40,7 +34,24 @@ export function ClockIn() {
       clearInterval(timer);
     };
   });
-
+ 
+ 
+  const monthNumber = format(time, "M")
+  const monthName = format(time, "MMMM").toLowerCase();
+  const year = format(time, "yyyy");
+  const dayNumber = format(time, "d");
+  const dayName = format(time, "EEEE").toLowerCase();
+  const actualDateWords = format(time, "PPP eeee").toLowerCase();
+  const actualDate = format(time,"yyyyMMdd")
+  let actualDateNumber = parseFloat(actualDate, 10)
+  const exactTime = format(time, "pp");
+  let startOfWeekAsString = format(startOfWeek(time), "yyyyMMdd")
+  let actualStartOfWeek = parseFloat(startOfWeekAsString, 10)
+  //  console.log(actualStartOfWeek)
+  //  console.log(actualDateNumber)
+  // console.log(typeof tryMe)
+ // let thisn = new Date(actualDateFormatted).getTime()
+  // console.log(actualDateWords)
   const handlePinInputChange = (event) => {
     setPin(event.target.value);
   };
@@ -51,7 +62,7 @@ export function ClockIn() {
       modal(false);
     }, 2500);
     setPin("");
-    setEmployees("");
+    setEmployeeName("");
   }
 
   function EmpCheck() {
@@ -66,11 +77,11 @@ export function ClockIn() {
       console.log(value.length);
       if (value.length === 0) {
         console.log("employee not found");
-        setEmployees("");
+        setEmployeeName("");
         return "";
       } else {
         console.log("we found an employee sir");
-        setEmployees(value[0].fields["Preferred Name"]);
+        setEmployeeName(value[0].fields["Preferred Name"]);
         TimeSheetCheck();
         return value;
       }
@@ -81,8 +92,8 @@ export function ClockIn() {
     let checker = API.graphql(
       graphqlOperation(listTimeSheets, {
         filter: {
-          date: {
-            contains: actualDate,
+          dateNumber: {
+            eq: actualDateNumber,
           },
           employeeID: {
             contains: pin,
@@ -118,11 +129,13 @@ export function ClockIn() {
       dayName: dayName,
       dayNumber: dayNumber,
       punches: exactTime,
-      month: month,
+      monthName: monthName,
+      monthNumber: monthNumber,
       clock_status: true,
       year: year,
-      date: actualDate,
+      dateNumber: actualDateNumber,
       employeeID: pin,
+      dateName: actualDateWords
     };
     const newTimeSheet = API.graphql(
       graphqlOperation(createTimeSheet, { input: TimerDetails })
@@ -131,44 +144,13 @@ export function ClockIn() {
       console.log(x);
     });
   }
-
-  // async function TimeSheetFlow(props) {
-  //   let y = await TimeSheetData();
-  //   await console.log(y.sheetLength);
-
-  //   if (y.sheetLength === 0) {
-  //     console.log("sheet length is 0");
-  //     let k = await TimeSheetCreate();
-  //     return console.log(k);
-  //   } else if (y.sheetLength === 1) {
-  //     console.log("sheet length is 1");
-  //     if (y.sheetStatus === true) {
-  //       ClockedInTimesheet(y.sheetStatus, y.sheetPunches, y.sheetID);
-  //       console.log("sheet status is true");
-  //     } else if (y.sheetStatus === false) {
-  //       console.log(" add stamp to new array");
-  //     }
-  //   } else if (y.sheetLength > 1) {
-  //     console.log("diff error");
-  //   } else {
-  //     return console.log("must be an error yo");
-  //   }
-  // }
-
   function ClockedInTimeSheet(status, punches, sheetID) {
-    console.log(status);
     let newStatus = false;
-    console.log(punches);
     let oldLastPunch = punches.slice(-1);
     let lastIndex = punches.length - 1;
- let arr3 = oldLastPunch.concat(exactTime)
-    console.log(oldLastPunch);
-    console.log(lastIndex);
-    console.log(punches);
-    console.log("dizn", punches[lastIndex]);
-    //
-    // console.log("this is it", newPunches)
-    punches[lastIndex] = arr3
+    let arr3 = oldLastPunch.concat(exactTime);
+    punches[lastIndex] = arr3;
+
     let newDetails = {
       id: sheetID,
       clock_status: newStatus,
@@ -188,8 +170,8 @@ export function ClockIn() {
     let newStatus = true;
     console.log("imported punches", punches);
     let nextIndex = punches.length;
- 
-let newPunches = punches.concat([exactTime])
+
+    let newPunches = punches.concat([exactTime]);
     console.log("new punches", newPunches);
 
     let ClockedOutnewDetails = {
@@ -207,40 +189,68 @@ let newPunches = punches.concat([exactTime])
     });
   }
 
-  //  let details = {
-  //   clock_status: false,
-  //   punches:
-  //  }
-
-  // const todoDetails = {
-  //   id: 'some_id',
-  //   description: 'My updated description!'
-  // };
-
-  // const updatedTodo = await API.graphql({ query: mutations.updateTodo, variables: {input: todoDetails}});
-
-  // let taco = [];
-
-  // taco[0] = [];
-  // taco[0].push("7am taco");
-  // taco[0].push("8am taco");
-  // console.log(taco[0].length % 2);
-  // let lastIndex = taco.length - 1;
-
-  // if (taco[lastIndex].length % 2 === 0) {
-  //   taco.push(["10am Taco"]);
-  // } else {
-  //   taco[lastIndex].push("11am Taco ");
-  // }
-
-  // ({ query: mutations.createTodo, variables: {input: todoDetails}});
-
   const ClockInFunction = async () => {
     if ((pin + "").length > 4 || (pin + "").length < 4) {
       return triggerStatement(setErrorTrigger);
     }
     EmpCheck();
   };
+
+  function ViewTimeSheetFunction() {
+    if ((pin + "").length > 4 || (pin + "").length < 4) {
+      return triggerStatement(setErrorTrigger);
+    }
+    ViewTimeSheetEmpCheck();
+  }
+
+  function TimeSheetGrab() {
+   
+ // let  dateTodayAndPassedWeek = []
+    let grabber = API.graphql(
+      graphqlOperation(listTimeSheets, {
+        filter: {
+          dateNumber: {
+            between: [actualStartOfWeek,actualDateNumber]
+          },
+          employeeID: {
+            contains: pin,
+          },
+        },
+      })
+    );
+    grabber.then((x) => {
+      let sheetLength = x.data.listTimeSheets.items.length;
+
+      if (sheetLength === 0) {
+        console.log("no timesheets please clock in first");
+      } else if (sheetLength > 0) {
+        console.log(pin);
+        navigate("/viewtimesheet",{ state: { pin, time } } )
+      }
+  })
+  }
+  function ViewTimeSheetEmpCheck() {
+    const tsrecords = airTableApiEmployeeTable
+      .select({
+        view: "All",
+        filterByFormula: "({pin} = '" + pin + "')",
+      })
+      .all()
+      tsrecords.then((value) => {
+        console.log(value);
+        console.log(value.length);
+        if (value.length === 0) {
+          console.log("employee not found");
+          setEmployeeName("");
+          return "";
+        } else {
+          console.log("we found an employee sir");
+          setEmployeeName(value[0].fields["Preferred Name"]);
+          TimeSheetGrab()
+          return value;
+        }
+      })
+  }
 
   return (
     <div className="clock page">
@@ -262,29 +272,25 @@ let newPunches = punches.concat([exactTime])
           ></input>
         </div>
         <div className="clock-clock-button">
-          <button
-            className="clock special-button"
-            variant="warning"
-            onClick={ClockInFunction}
-          >
+          <button className="clock special-button" onClick={ClockInFunction}>
             Clock In/Out
           </button>
         </div>
         <div className="clock-timesheet-button">
-          <Link to="/viewtimesheet/:1245">
-            <button id="clock-timesheet-button-specific" variant="warning">
+          <button
+              id="clock-timesheet-button-specific"
+              onClick={ViewTimeSheetFunction}
+            >
               View Timesheet
             </button>
-          </Link>
         </div>
         <div className="admin-path-button">
-          <Link to="/admin">
             <button variant="outline-warning">Admin Path</button>
-          </Link>
+          
           <button variant="outline-warning">Sign Out</button>
         </div>
         <ClockInModal
-          name={employees}
+          name={employeeName}
           trigger={successTrigger}
           setTrigger={setSuccessTrigger}
         />

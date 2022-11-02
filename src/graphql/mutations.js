@@ -11,19 +11,22 @@ export const createTimeSheet = /* GraphQL */ `
       clock_status
       dayName
       dayNumber
-      month
+      monthName
+      monthNumber
       year
       punches
-      date
+      dateNumber
+      dateName
       total_hours
       employeeID
       TimeSheetEntrys {
         items {
           id
+          start_time
+          stop_time
           allocated_hours
           untitledfield
           timesheetID
-          projectsID
           travelersID
           EmployeeID
           createdAt
@@ -46,19 +49,22 @@ export const updateTimeSheet = /* GraphQL */ `
       clock_status
       dayName
       dayNumber
-      month
+      monthName
+      monthNumber
       year
       punches
-      date
+      dateNumber
+      dateName
       total_hours
       employeeID
       TimeSheetEntrys {
         items {
           id
+          start_time
+          stop_time
           allocated_hours
           untitledfield
           timesheetID
-          projectsID
           travelersID
           EmployeeID
           createdAt
@@ -81,19 +87,22 @@ export const deleteTimeSheet = /* GraphQL */ `
       clock_status
       dayName
       dayNumber
-      month
+      monthName
+      monthNumber
       year
       punches
-      date
+      dateNumber
+      dateName
       total_hours
       employeeID
       TimeSheetEntrys {
         items {
           id
+          start_time
+          stop_time
           allocated_hours
           untitledfield
           timesheetID
-          projectsID
           travelersID
           EmployeeID
           createdAt
@@ -113,10 +122,11 @@ export const createTimeSheetEntrys = /* GraphQL */ `
   ) {
     createTimeSheetEntrys(input: $input, condition: $condition) {
       id
+      start_time
+      stop_time
       allocated_hours
       untitledfield
       timesheetID
-      projectsID
       travelersID
       EmployeeID
       createdAt
@@ -131,10 +141,11 @@ export const updateTimeSheetEntrys = /* GraphQL */ `
   ) {
     updateTimeSheetEntrys(input: $input, condition: $condition) {
       id
+      start_time
+      stop_time
       allocated_hours
       untitledfield
       timesheetID
-      projectsID
       travelersID
       EmployeeID
       createdAt
@@ -149,10 +160,11 @@ export const deleteTimeSheetEntrys = /* GraphQL */ `
   ) {
     deleteTimeSheetEntrys(input: $input, condition: $condition) {
       id
+      start_time
+      stop_time
       allocated_hours
       untitledfield
       timesheetID
-      projectsID
       travelersID
       EmployeeID
       createdAt

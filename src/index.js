@@ -9,6 +9,7 @@ import { AdminEmp } from './pages/AdminEmp/AdminEmp';
 import { AdminProject } from './pages/AdminProject/AdminProject';
 import TestClock from "./routing/TestClock"
 import TimeTest from './routing/TimeTest';
+import { TestComp } from "./pages/ClockInPage/TestComp"
 import awsExports from './aws-exports';
 Amplify.configure(awsExports);
 

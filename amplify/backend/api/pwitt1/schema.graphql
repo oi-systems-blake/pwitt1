@@ -6,21 +6,24 @@ type TimeSheet @model @auth(rules: [{allow: public}]) {
   id: ID!
   clock_status: Boolean
   dayName: String
-  dayNumber: String
-  month: String
-  year: String
+  dayNumber: Int
+  monthName: String
+  monthNumber: Int
+  year: Int
   punches: [String]
-  date: String
+  dateNumber: Int
+  dateName: String
   total_hours: String
   employeeID: String
   TimeSheetEntrys: [TimeSheetEntrys] @hasMany(indexName: "byTimeSheet", fields: ["id"])
 }
 type TimeSheetEntrys @model @auth(rules: [{allow: public}]) {
   id: ID!
+  start_time: String
+  stop_time: String
   allocated_hours: String
   untitledfield: String
   timesheetID: ID! @index(name: "byTimeSheet")
-  projectsID: String
   travelersID: String
   EmployeeID: String
 }

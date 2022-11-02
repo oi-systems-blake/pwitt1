@@ -17,7 +17,7 @@ export function Routing() {
     <BrowserRouter>
     <Routes>
     <Route path="/" element={<ClockIn />} />
-    <Route path="/viewtimesheet/:id" element={<ViewTimesheet  />} />
+    <Route path="/viewtimesheet" element={<ViewTimesheet  />} />
     <Route path="admin" element={<AdminNavBar />}>
     <Route path="employee" element={<AdminEmp/>}/>
     <Route path='employeedetails' element={<AdminEmpDetail/>}/>

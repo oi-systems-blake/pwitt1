@@ -8,19 +8,22 @@ export const getTimeSheet = /* GraphQL */ `
       clock_status
       dayName
       dayNumber
-      month
+      monthName
+      monthNumber
       year
       punches
-      date
+      dateNumber
+      dateName
       total_hours
       employeeID
       TimeSheetEntrys {
         items {
           id
+          start_time
+          stop_time
           allocated_hours
           untitledfield
           timesheetID
-          projectsID
           travelersID
           EmployeeID
           createdAt
@@ -45,10 +48,12 @@ export const listTimeSheets = /* GraphQL */ `
         clock_status
         dayName
         dayNumber
-        month
+        monthName
+        monthNumber
         year
         punches
-        date
+        dateNumber
+        dateName
         total_hours
         employeeID
         TimeSheetEntrys {
@@ -65,10 +70,11 @@ export const getTimeSheetEntrys = /* GraphQL */ `
   query GetTimeSheetEntrys($id: ID!) {
     getTimeSheetEntrys(id: $id) {
       id
+      start_time
+      stop_time
       allocated_hours
       untitledfield
       timesheetID
-      projectsID
       travelersID
       EmployeeID
       createdAt
@@ -85,10 +91,11 @@ export const listTimeSheetEntrys = /* GraphQL */ `
     listTimeSheetEntrys(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        start_time
+        stop_time
         allocated_hours
         untitledfield
         timesheetID
-        projectsID
         travelersID
         EmployeeID
         createdAt

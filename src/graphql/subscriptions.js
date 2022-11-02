@@ -8,19 +8,22 @@ export const onCreateTimeSheet = /* GraphQL */ `
       clock_status
       dayName
       dayNumber
-      month
+      monthName
+      monthNumber
       year
       punches
-      date
+      dateNumber
+      dateName
       total_hours
       employeeID
       TimeSheetEntrys {
         items {
           id
+          start_time
+          stop_time
           allocated_hours
           untitledfield
           timesheetID
-          projectsID
           travelersID
           EmployeeID
           createdAt
@@ -40,19 +43,22 @@ export const onUpdateTimeSheet = /* GraphQL */ `
       clock_status
       dayName
       dayNumber
-      month
+      monthName
+      monthNumber
       year
       punches
-      date
+      dateNumber
+      dateName
       total_hours
       employeeID
       TimeSheetEntrys {
         items {
           id
+          start_time
+          stop_time
           allocated_hours
           untitledfield
           timesheetID
-          projectsID
           travelersID
           EmployeeID
           createdAt
@@ -72,19 +78,22 @@ export const onDeleteTimeSheet = /* GraphQL */ `
       clock_status
       dayName
       dayNumber
-      month
+      monthName
+      monthNumber
       year
       punches
-      date
+      dateNumber
+      dateName
       total_hours
       employeeID
       TimeSheetEntrys {
         items {
           id
+          start_time
+          stop_time
           allocated_hours
           untitledfield
           timesheetID
-          projectsID
           travelersID
           EmployeeID
           createdAt
@@ -101,10 +110,11 @@ export const onCreateTimeSheetEntrys = /* GraphQL */ `
   subscription OnCreateTimeSheetEntrys {
     onCreateTimeSheetEntrys {
       id
+      start_time
+      stop_time
       allocated_hours
       untitledfield
       timesheetID
-      projectsID
       travelersID
       EmployeeID
       createdAt
@@ -116,10 +126,11 @@ export const onUpdateTimeSheetEntrys = /* GraphQL */ `
   subscription OnUpdateTimeSheetEntrys {
     onUpdateTimeSheetEntrys {
       id
+      start_time
+      stop_time
       allocated_hours
       untitledfield
       timesheetID
-      projectsID
       travelersID
       EmployeeID
       createdAt
@@ -131,10 +142,11 @@ export const onDeleteTimeSheetEntrys = /* GraphQL */ `
   subscription OnDeleteTimeSheetEntrys {
     onDeleteTimeSheetEntrys {
       id
+      start_time
+      stop_time
       allocated_hours
       untitledfield
       timesheetID
-      projectsID
       travelersID
       EmployeeID
       createdAt

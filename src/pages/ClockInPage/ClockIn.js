@@ -285,7 +285,9 @@ export function ClockIn() {
             </button>
         </div>
         <div className="admin-path-button">
-            <button variant="outline-warning">Admin Path</button>
+        <Link to="/admin">
+        <button variant="outline-warning">Admin Path</button>
+      </Link>
           
           <button variant="outline-warning">Sign Out</button>
         </div>

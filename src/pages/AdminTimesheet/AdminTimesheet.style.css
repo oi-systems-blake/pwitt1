@@ -3,17 +3,101 @@
     min-height: 100vh;
     display: flex;
 }
-
-.admin-timesheet-left-side {
-    background-color: red;
-    width: 22%;
+.page-left-container {
+    flex-direction: column;
+    width: 12%;
+    max-height: 100vh;
+    background-color: white;
+    flex-shrink: 1;
 }
 
-.admin-timesheet-right-side {
-    background-color: blueviolet;
-    width: 78%;
+.Employee-list-header {
+    background-color: white;
+    max-width: 100%;
+    height: 45px;
+    border: 1px solid lightgray;
+    text-align: center;
+    margin-top: 20px;
 }
 
-.admin-timesheet-main-container {
+.employee-row {
+background-color: white;
+max-width: 100%;
+height: 45px;
+border: 1px solid lightgray;
+
+}
+
+.timesheet-container {
+    flex-direction: row;
+    width: 50%;
+    background-color: white;
+    margin-top: 70px;
+}
+
+.container-header {
+    height: 50px;
+   width: 100px;
+   background-color: rgb(255, 255, 255);
+   display: inline-flex;
+   width: 100%;
+   justify-content: space-around;
+   border-radius: 5px 5px 0 0;
     
+}
+
+.timesheet-row {
+    height: 50px;
+    width: 100px;
+    background-color: rgb(255, 255, 255);
+    border-top: 1px solid rgb(174, 166, 166);
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-around;
+    
+}
+
+.timesheet-continer-footer {
+    height: 50px;
+    width: 100px;
+    background-color: rgb(255, 255, 255);
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    border-radius: 0 0 5px 5px;
+    font-weight: bold;
+    border-top: 1px solid rgb(174, 166, 166);
+   
+    
+
+}
+
+.footer-total {
+    width: 75px;
+    
+    
+    
+}
+
+.weekly-total {
+    width: 120px;
+    text-align: center;
+}
+
+.weekly-ot-total {
+    width: 120px;
+    text-align: center;
+}
+
+.header-label {
+    width: 50px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.row-label {
+    width: 50px;
+    text-align: center;
+    margin-top: 10px;
 }

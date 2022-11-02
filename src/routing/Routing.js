@@ -4,7 +4,7 @@ import { ClockIn } from "../pages/ClockInPage/ClockIn"
 import {App} from "./App"
 import {ViewTimesheet} from "../pages/ViewTimesheet/ViewTimesheet";
 import { AdminEmp } from "../pages/AdminEmp/AdminEmp"
-import { AdminEmpDetail } from "../pages/AdminEmpDetail";
+import {AdminEmpDetail} from "../pages/AdminEmpDetail/AdminEmpDetail"
 import { AdminProject } from "../pages/AdminProject/AdminProject";
 import { AdminTimesheet } from "../pages/AdminTimesheet/AdminTimesheet";
 import { AdminNavBar } from "../adminNavBar/AdminNavBar";

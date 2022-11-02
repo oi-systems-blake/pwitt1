@@ -2,6 +2,7 @@
     background-color: gray;
     min-height: 100vh;
     display: flex;
+    
 }
 
 .project-row.header {

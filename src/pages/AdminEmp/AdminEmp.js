@@ -2,7 +2,7 @@ import "./Css/AdminEmp.style.css"
 import {secure} from "../../Secret"
 import Employee from "./Css/components/Employee";
 import { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
 export function AdminEmp() {
 
   let [emps, setEmps] = useState([]);
@@ -41,6 +41,9 @@ console.log()
   return (
     <>
       <div className="emp-page">
+      <Link to="/admin/employeedetails">
+      <button variant="outline-warning">Detail View</button>
+    </Link>
         <div className="emp-container">
           <div className="emp-row header">
             <div className="emp-row-emp-name header">Name</div>

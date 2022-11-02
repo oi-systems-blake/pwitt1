@@ -6,7 +6,7 @@
     padding: 0;
 }
 
-li, a, button {
+li, a, .sign-out {
     font-family: "Monsterrat", sans-serif;
     font-weight: 500;
     font-size: 16px;
@@ -50,7 +50,7 @@ li, a, button {
   
 }
 
-button {
+.sing-out {
     background-color: rgba(245,202,70,1);
     border: none;
     border-radius: 50px;
@@ -63,6 +63,6 @@ button {
 
 }
 
-button:hover {
+.sing-out:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }

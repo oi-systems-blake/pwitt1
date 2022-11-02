@@ -80,6 +80,7 @@ export function AdminProject() {
   return (
     <>
       <div className="project-page">
+      
         <input
         //  value={projectSearch}
           className="search-projects"
@@ -96,7 +97,8 @@ export function AdminProject() {
           {projects.map((project) => (
             <Project key={project.id} project={project} />
           ))}
-        </div>
+      
+      </div>
       </div>
     </>
   );

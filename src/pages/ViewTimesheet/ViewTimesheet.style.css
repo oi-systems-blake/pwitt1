@@ -1,0 +1,74 @@
+.view-timesheet-page {
+background-color: gray;
+display: flex;
+position:fixed;
+padding:0;
+margin:0;
+top:0;
+left:0;
+width: 100%;
+height: 100%;
+}
+
+.sidebar {
+    width:20%;
+
+
+}
+
+.timesheet-container {
+    background-color: white;
+    border-radius: 1.5%;
+    margin: auto;
+    width: 80%;
+    min-height: 45%;
+}
+
+.timesheet-header {
+    text-align: center;
+    padding-top: 2%;
+}
+
+.timesheet-header.timesheet-month {
+    font-size: x-large;
+    font-weight: bold; 
+}
+
+.timesheet-header.timesheet-days {
+    font-weight: bold; 
+}
+
+.timesheet-row {
+    display: flex;
+}
+.timesheet-header.timesheet-days{
+    padding-bottom: 2%;
+}
+
+.timesheet-date{
+    flex: 1 1 0;
+    text-align: center;
+    border: 1px solid darkgray;
+    padding: 3% 0;
+    background-color: rgb(197, 197, 197);
+}
+
+.timesheet-hour {
+    flex: 2 1 0;
+    text-align: left;
+    border-top: 1px solid darkgray;
+    border-bottom: 1px solid darkgray;
+    padding: 3% 0;
+}
+.individual-hour{
+   display: block; 
+}
+
+.timesheet-hour-text {
+    padding-left: 7%;
+}
+
+.timesheet-hour-total {
+    padding-top: 1%;
+    padding-left: 36%
+}

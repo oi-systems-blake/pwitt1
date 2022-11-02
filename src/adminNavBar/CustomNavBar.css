@@ -1,0 +1,68 @@
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+li, a, button {
+    font-family: "Monsterrat", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: rgb(5, 5, 5);
+    text-decoration: none;
+}
+
+
+.adminNav {
+    background-color: #e6e6e6;
+    height: 64px;
+    display: block;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    
+}
+
+.path-container {
+    display: inline-flex;
+    gap: 15px;
+    width: 80%;
+    justify-content: center;
+    list-style: none;
+}
+
+.path-container li a {
+    transition: all 0.3s ease 0s;
+}
+
+
+.path-container li a:hover {
+    color: #f5ca46;
+}
+
+.navbar-img {
+    margin-top: 5px;
+  
+}
+
+button {
+    background-color: rgba(245,202,70,1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    width: 115px;
+    height: 40px;
+    color: white;
+    
+
+}
+
+button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}

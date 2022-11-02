@@ -1,0 +1,92 @@
+.emp-page {
+    background-color: gray;
+    min-height: 100vh;
+    display: flex;
+}
+
+
+
+.emp-container {
+    background-color: white;
+    min-width: 69%;
+    max-width: 95%;
+    margin: 10% auto;
+    border-radius: 15px;
+}
+
+.emp-row {
+    display: inline-flex;
+    padding: 4px 0;
+    width: 100%;
+    margin: 10px 0;
+    padding-left: 10px;
+    border-bottom: 1px solid lightgray
+}
+
+.emp-row.header {
+    background-color: white;
+    border: 0;
+    font-size: large;
+    border-bottom: 2px dotted lightgray;
+    padding-left: 12px;
+    padding-right: 7%;
+}
+
+.emp-row-status.header {
+    position: relative;
+    right: 0;
+}
+
+
+
+.emp-row-left {
+
+    text-align: left;
+    white-space: nowrap;
+    text-overflow: clip;
+    flex: 0 1 auto;
+    max-width: 65%;
+min-width: 50%;
+}
+
+.emp-row-emp-name {
+    text-align: left;
+    white-space: nowrap;
+    text-overflow: clip;
+    flex: 0 1 auto;
+    width: 65%;
+}
+
+
+
+.emp-row-right {
+    text-align: center;
+    width: 45%;
+    white-space: nowrap;
+    text-overflow: clip;
+
+}
+
+.emp-row-clock-button{
+    display: inline-block;
+    margin-right: 10px;
+    background-color: yellow;
+    color: black;
+    border-radius: 5px;
+    position: relative;
+    right: 10%;
+}
+
+
+.emp-row-status {
+    flex: 0 1 100%;
+    float: left;
+
+
+}
+
+.emp-row-hours {
+    flex: 0 1 100%;
+    float: right;
+   
+}

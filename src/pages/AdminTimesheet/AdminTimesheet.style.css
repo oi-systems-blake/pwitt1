@@ -1,0 +1,19 @@
+.admin-timesheet-page {
+    background-color: gray;
+    min-height: 100vh;
+    display: flex;
+}
+
+.admin-timesheet-left-side {
+    background-color: red;
+    width: 22%;
+}
+
+.admin-timesheet-right-side {
+    background-color: blueviolet;
+    width: 78%;
+}
+
+.admin-timesheet-main-container {
+    
+}

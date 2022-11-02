@@ -30,7 +30,7 @@ export function AdminNavBar() {
           <li><a href="/admin/timesheet">Timesheets</a></li>
           </ul>
           <div class='button-container'>
-          <button onClick={console.log("fix me please")}>Sign Out</button>
+          <button class="sing-out" onClick={console.log("fix me please")}>Sign Out</button>
           </div>
           
         </div>

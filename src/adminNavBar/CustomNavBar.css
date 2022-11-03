@@ -1,18 +1,10 @@
-
-{/* 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-li, a, .sign-out {
+.list, .ancor, .sign-out {
     font-family: "Monsterrat", sans-serif;
     font-weight: 500;
     font-size: 16px;
     color: rgb(5, 5, 5);
     text-decoration: none;
-} */}
+} 
 
 
 .adminNav {

@@ -12,22 +12,22 @@ export function AdminEmpDetail() {
            <div className="profile-card-header"><b>John Doe</b></div>
              
              <div className="Profile-card-row"><b>First Name</b>
-             <div classname="name-field">John</div>
+             <div className="name-field">John</div>
            </div>
            <div className="Profile-card-row"><b>Last Name</b>
-           <div classname="name-field">Doe</div>
+           <div className="name-field">Doe</div>
          </div>
          <div className="Profile-card-row"><b>Manager</b>
-         <div classname="name-field">Jeff Miller</div>
+         <div className="name-field">Jeff Miller</div>
        </div>
        <div className="Profile-card-row"><b>Phone Number</b>
-       <div classname="name-field">314-888-8888</div>
+       <div className="name-field">314-888-8888</div>
      </div>
      <div className="Profile-card-row"><b>Email</b>
-     <div classname="name-field">jdoe@pwi.com</div>
+     <div className="name-field">jdoe@pwi.com</div>
    </div>
    <div className="Profile-card-row"><b>Clock Status</b>
-   <div classname="name-field">Clocked-in</div>
+   <div className="name-field">Clocked-in</div>
  </div>
            </div>
 

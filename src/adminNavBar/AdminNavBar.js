@@ -24,13 +24,13 @@ export function AdminNavBar() {
               alt="pwi logo"
             />
             </div>
-            <ul class='path-container'>
-          <li><a href="/admin/employee">Employees</a></li>
-          <li><a href="/admin/projects">Projects</a></li>
-          <li><a href="/admin/timesheet">Timesheets</a></li>
+            <ul className='path-container'>
+          <li className="list"><a className="ancor" href="/admin/employee">Employees</a></li>
+          <li className="list"><a className="ancor" href="/admin/projects">Projects</a></li>
+          <li className="list"><a className="ancor" href="/admin/timesheet">Timesheets</a></li>
           </ul>
-          <div class='button-container'>
-          <button class="sing-out" onClick={console.log("fix me please")}>Sign Out</button>
+          <div className='button-container'>
+          <button className="sing-out" onClick={console.log("fix me please")}>Sign Out</button>
           </div>
           
         </div>

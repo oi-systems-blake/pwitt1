@@ -33,7 +33,7 @@ export function ClockIn() {
     return function cleanup() {
       clearInterval(timer);
     };
-  });
+  },[]);
  
  
   const monthNumber = format(time, "M")

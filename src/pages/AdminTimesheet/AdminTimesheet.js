@@ -84,6 +84,7 @@ export function AdminTimesheet() {
        <div className="footer-total">Total</div>
        <div className="weekly-total">12</div>
        <div className="weekly-ot-total">2</div>
+       <div></div>
        </div>
        </div>
        

@@ -11,6 +11,7 @@ import TestClock from "./routing/TestClock"
 import TimeTest from './routing/TimeTest';
 import { TestComp } from "./pages/ClockInPage/TestComp"
 import awsExports from './aws-exports';
+import { TsTimeSheetGrab } from './pages/ViewTimesheet/TsTimeSheetGrab';
 Amplify.configure(awsExports);
 
 

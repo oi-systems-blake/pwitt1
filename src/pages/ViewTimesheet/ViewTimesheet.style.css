@@ -21,7 +21,9 @@ height: 100%;
     border-radius: 1.5%;
     margin: auto;
     width: 80%;
-    min-height: 45%;
+    min-height: 85%;
+    min-width: 85%;
+    display: inline-block;
 }
 
 .timesheet-header {
@@ -39,18 +41,21 @@ height: 100%;
 }
 
 .timesheet-row {
-    display: flex;
+    display: inline-block;
+    height: max-content;
+    
 }
 .timesheet-header.timesheet-days{
     padding-bottom: 2%;
 }
 
 .timesheet-date{
-    flex: 1 1 0;
+    min-width: 25%;
     text-align: center;
     border: 1px solid darkgray;
     padding: 3% 0;
     background-color: rgb(197, 197, 197);
+    min-height: 20%;
 }
 
 .timesheet-hour {
@@ -58,7 +63,8 @@ height: 100%;
     text-align: left;
     border-top: 1px solid darkgray;
     border-bottom: 1px solid darkgray;
-    padding: 3% 0;
+    height: max-content;
+   
 }
 .individual-hour{
    display: block; 
@@ -66,6 +72,8 @@ height: 100%;
 
 .timesheet-hour-text {
     padding-left: 7%;
+    height: max-content;
+    
 }
 
 .timesheet-hour-total {

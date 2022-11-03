@@ -83,7 +83,6 @@ export function ClockIn() {
         console.log("we found an employee sir");
         setEmployeeName(value[0].fields["Preferred Name"]);
         TimeSheetCheck();
-        return value;
       }
     });
   }
@@ -103,11 +102,12 @@ export function ClockIn() {
     );
     checker.then((x) => {
       let sheetLength = x.data.listTimeSheets.items.length;
-
+console.log(sheetLength)
+console.log(x.data.listTimeSheets.items)
       if (sheetLength === 0) {
         console.log("no timesheets please create one");
         TimeSheetCreate();
-      } else if (sheetLength === 1) {
+      } else {
         let sheetStatus = x.data.listTimeSheets.items[0].clock_status;
         let sheetPunches = x.data.listTimeSheets.items[0].punches;
         let sheetId = x.data.listTimeSheets.items[0].id;

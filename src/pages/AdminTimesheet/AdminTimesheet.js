@@ -31,49 +31,49 @@ export function AdminTimesheet() {
        <div className="header-label">OT</div>
        </div>
 
-       <div className="timesheet-row">
+       <div className="tsr">
        <div className="row-label">5/1/22</div>
        <div className="row-label">7:00AM</div>
        <div className="row-label">4:00PM</div>
        <div className="row-label">8</div>
        <div className="row-label">0</div>
        </div>
-       <div className="timesheet-row">
+       <div className="tsr">
        <div className="row-label">5/1/22</div>
        <div className="row-label">7:00AM</div>
        <div className="row-label">4:00PM</div>
        <div className="row-label">8</div>
        <div className="row-label">0</div>
        </div>
-       <div className="timesheet-row">
+       <div className="tsr">
        <div className="row-label">5/1/22</div>
        <div className="row-label">7:00AM</div>
        <div className="row-label">4:00PM</div>
        <div className="row-label">8</div>
        <div className="row-label">0</div>
        </div>
-       <div className="timesheet-row">
+       <div className="tsr">
        <div className="row-label">5/1/22</div>
        <div className="row-label">7:00AM</div>
        <div className="row-label">4:00PM</div>
        <div className="row-label">8</div>
        <div className="row-label">0</div>
        </div>
-       <div className="timesheet-row">
+       <div className="tsr">
        <div className="row-label">5/1/22</div>
        <div className="row-label">7:00AM</div>
        <div className="row-label">4:00PM</div>
        <div className="row-label">8</div>
        <div className="row-label">0</div>
        </div>
-       <div className="timesheet-row">
+       <div className="tsr">
        <div className="row-label">5/1/22</div>
        <div className="row-label">7:00AM</div>
        <div className="row-label">4:00PM</div>
        <div className="row-label">8</div>
        <div className="row-label">0</div>
        </div>
-       <div className="timesheet-row">
+       <div className="tsr">
        <div className="row-label">5/1/22</div>
        <div className="row-label">7:00AM</div>
        <div className="row-label">4:00PM</div>

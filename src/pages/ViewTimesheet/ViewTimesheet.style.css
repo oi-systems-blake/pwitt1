@@ -1,82 +1,70 @@
-.view-timesheet-page {
+.view-ts-page {
 background-color: gray;
-display: flex;
-position:fixed;
-padding:0;
-margin:0;
-top:0;
-left:0;
-width: 100%;
-height: 100%;
+height: 100vh;
+padding-top: 60px;
 }
 
-.sidebar {
-    width:20%;
-
-
-}
-
-.timesheet-container {
-    background-color: white;
-    border-radius: 1.5%;
-    margin: auto;
-    width: 80%;
-    min-height: 85%;
-    min-width: 85%;
-    display: inline-block;
-}
-
-.timesheet-header {
-    text-align: center;
-    padding-top: 2%;
-}
-
-.timesheet-header.timesheet-month {
-    font-size: x-large;
-    font-weight: bold; 
-}
-
-.timesheet-header.timesheet-days {
-    font-weight: bold; 
-}
-
-.timesheet-row {
-    display: inline-block;
-    height: max-content;
+.vts-cont {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
     
 }
-.timesheet-header.timesheet-days{
-    padding-bottom: 2%;
-}
 
-.timesheet-date{
-    min-width: 25%;
+.vts-d-b {
+    height: fit-content;
+    width: 65%;
+    background-color: white;
+    border-radius: 5px;
     text-align: center;
-    border: 1px solid darkgray;
-    padding: 3% 0;
-    background-color: rgb(197, 197, 197);
-    min-height: 20%;
 }
 
-.timesheet-hour {
-    flex: 2 1 0;
-    text-align: left;
-    border-top: 1px solid darkgray;
-    border-bottom: 1px solid darkgray;
-    height: max-content;
+.ts-cont{
+    width: 65%;
    
 }
-.individual-hour{
-   display: block; 
+
+.ts-h {
+    background-color: white;
+    border-radius: 5px 5px 0 0;
+    height: 35px
 }
 
-.timesheet-hour-text {
-    padding-left: 7%;
-    height: max-content;
+.ts-r {
+    height: fit-content;
+    border-color: none;
+    background-color: white;
+    border: 1px solid rgb(182, 177, 187);
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
     
 }
 
-.timesheet-hour-total {
-    padding-top: 1%;
-    padding-left: 36%
+.left-b {
+    background-color: rgb(168, 168, 168);
+    width: 20%;
+    min-width: 80px;
+    justify-content: left;
+    text-align: center;
+
+}
+
+.right-b {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.ts-f {
+    background-color: white;
+    border-radius: 0 0 5px 5px;
+    height: 35px;
+}
+
+.month, .day {
+    margin: 0;
+    padding: 0;
 }

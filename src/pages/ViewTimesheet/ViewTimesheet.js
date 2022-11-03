@@ -83,33 +83,29 @@ export function ViewTimesheet() {
 
   // console.log(authStatus);
   return (
-    <div className="view-timesheet-page">
-      <div className="view-timesheet-sidebar"></div>
-      <div className="timesheet-container">
-        <div className="timesheet-header timesheet-month">May</div>
-        <div className="timesheet-header timesheet-days">1st - 6th</div>
-        {Object.values(timeSheets).map((value, index) => {
-          return (
-            <div key={index} className="timesheet-row">
-              <div className="timesheet-date">
-                {value.dayName}, {value.month} {value.dayNumber}
-              </div>
-              <div className="timesheet-hour">
-                <div className="timesheet-hour-text">
-                  8h 00m
-                  <div className="individual-hour">
-                    {value.punches.map((hour, index) => (
-                      <div key={index} className="ts-individual-punch">
-                        {hour}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+    <div className="view-ts-page">
+      <div className="vts-cont" id="mc">
+        <div className="vts-d-b" id="b-top">
+          <h2 className="month">May</h2>
+          <h3 className="day">1st</h3>
+        </div>
+
+        <div className="ts-cont" id="ts-b">
+          <div className="ts-h"></div>
+          <div className="ts-r">
+            <div className="left-b">
+              Mon
+              <div className="mm-dd">May 1st</div>
             </div>
-          );
-        })}
-        <div className="timesheet-hour-total"> 48h00m</div>
+            <div className="right-b">
+              7:00AM - 4:00PM
+              <div className="hh-mm">8h 00m</div>
+            </div>
+          </div>
+          <footer className="ts-f">
+            <div className="weekly-total">40hrs 0min</div>
+          </footer>
+        </div>
       </div>
     </div>
   );

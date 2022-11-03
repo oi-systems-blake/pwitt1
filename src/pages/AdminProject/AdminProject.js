@@ -7,7 +7,9 @@ import { secure } from "../../Secret";
 export function AdminProject() {
   let [projects, setProjects] = useState([]);
   let [projectSearch, setProjectSearch] = useState("");
-
+  let [displayProjects, setDisplayProjects] = useState([])
+  
+  
   var Airtable = require("airtable");
   var base = new Airtable({ apiKey: secure }).base("appdxUzxbQJdbR8fz");
 
@@ -20,22 +22,25 @@ export function AdminProject() {
   //     console.log(this.state.value);
   // });
   //   console.log("and finally", x)
-  
+
   // };
 
-  async function handlePinSearchChange(event) {
-    await setProjectSearch(event.target.value);
-    await console.log(event.target.value)
-}
+  function handlePinSearchChange(event) {
+    setProjectSearch(event.target.value);
+  }
 
   const handleClick = () => {
-    let result = projects.filter((proj) => {
-      console.log(typeof (proj.fields["Project ID (auto)"] + proj.fields.Project))
-      return (proj.fields["Project ID (auto)"] + proj.fields.Project).toLowerCase().includes(projectSearch);
+    console.log("here are the projects", projects)
+    let result = projects.filter((project) => {
+      console.log(
+        typeof (project.fields["Project ID (auto)"] + project.fields.Project)
+      );
+      return (project.fields["Project ID (auto)"] + project.fields.Project)
+        .toLowerCase()
+        .includes(projectSearch);
     });
-    setProjects(result)
+    setDisplayProjects(result);
   };
-
 
   useEffect(() => {
     console.log();
@@ -45,61 +50,35 @@ export function AdminProject() {
         view: "Blake's View",
       })
       .all();
-    runit.then((proj) => {
-      console.log("hey", proj);
-      setProjects(proj);
-    });
-
-    // base("Projects")
-    //   .select({
-    //     // Selecting the first 3 records in Brandon's Jobs:
-    //     maxRecords: 1000,
-    //     view: "Blake's View",
-    //   })
-    //   .eachPage(
-    //     function page(records, fetchNextPage) {
-    //       // This function (`page`) will get called for each page of records.
-
-    //         setProjects(records)
-    //       console.log(records)
-    //       // To fetch the next page of records, call `fetchNextPage`.
-    //       // If there are more records, `page` will get called again.
-    //       // If there are no more records, `done` will get called.
-    //       fetchNextPage();
-    //     },
-    //     function done(err) {
-    //       if (err) {
-    //         console.error(err);
-    //         return;
-    //       }
-    //     }
-    //   );
-  },[]);
-
+    runit.then((project) => {
+      console.log("hey", project);
+      setProjects(project);
+      setDisplayProjects(project);
+    })
+  }, []);
 
   return (
-    <>
-      <div className="project-page">
-      
-        <input
+    <div className="project-page">
+      <input
         //  value={projectSearch}
-          className="search-projects"
-          onChange={handlePinSearchChange}
-        ></input><button className="search-projects" onClick={handleClick}>Click</button>
-        <div className="project-container">
-          <div className="project-row header">
-            <div className="project-row-project-name header">Project</div>
-            <div className="project-row-right header">
-              <div className="project-row-status header">Status</div>
-              <div className="project-row-hours header">Hours</div>
-            </div>
+        className="search-projects"
+        onChange={handlePinSearchChange}
+      ></input>
+      <button className="search-projects" onClick={handleClick}>
+        Click
+      </button>
+      <div className="project-container">
+        <div className="project-row header">
+          <div className="project-row-project-name header">Project</div>
+          <div className="project-row-right header">
+            <div className="project-row-status header">Status</div>
+            <div className="project-row-hours header">Hours</div>
           </div>
-          {projects.map((project) => (
-            <Project key={project.id} project={project} />
-          ))}
-      
+        </div>
+        {displayProjects.map((displayProject) => (
+          <Project key={displayProject.id} project={displayProject} />
+        ))}
       </div>
-      </div>
-    </>
+    </div>
   );
 }

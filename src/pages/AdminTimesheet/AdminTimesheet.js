@@ -5,7 +5,8 @@ export function AdminTimesheet() {
   return (
     <>
       <div className="admin-timesheet-page">
-       <div className="page-left-container">
+      <div className='main-container'>
+      <div className="page-left-container" id="plc">
        <select className="pay-period" itemID="pay-period">
        <option>5/6/22-5/11/22</option>
        </select>
@@ -21,7 +22,7 @@ export function AdminTimesheet() {
        <div className="employee-row">I</div>
        </div>
 
-       <div className="timesheet-container">
+       <div className="sheets" id="tc">
        <div className="container-header">
        <div className="header-label">Date</div>
        <div className="header-label">In</div>
@@ -80,16 +81,15 @@ export function AdminTimesheet() {
        <div className="row-label">0</div>
        </div>
 
-       <div className="timesheet-continer-footer">
-       <div className="footer-total">Total</div>
+       <div className="bottom-cap" id="tcf">
+       <div className="total">Total</div>
        <div className="weekly-total">12</div>
        <div className="weekly-ot-total">2</div>
        <div></div>
        </div>
        </div>
        
-    
-       
+       </div>
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 .emp-detail-page {
-    background-color: gray;
+    background-color: #b3b3b3;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -21,7 +21,7 @@ height: 400px;
 border-radius: 5px;
 background-color: white;
 margin-top: 100px;
-;
+
 }
 
 .profile-card-header {

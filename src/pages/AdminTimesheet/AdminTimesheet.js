@@ -85,7 +85,8 @@ export function AdminTimesheet() {
           <select className="pay-period" itemID="pay-period">
             <option>5/6/22-5/11/22</option>
           </select>
-          <header className="Employee-list-header">
+          
+          <header className="employee-list-header">
             Employees
             <br />
             {selectedEmp}

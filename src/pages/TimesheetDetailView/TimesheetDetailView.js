@@ -1,7 +1,13 @@
-import "./Css/TimesheetDetailView.style.css";
+import React from 'react'
+import "./TimesheetDetailView.style.css"
 
-// timesheet detail view
-<div className="tsdv-page">
+export default function TimesheetDetailView() {
+ 
+ 
+ 
+ 
+  return (
+    <div className="tsdv-page">
   <div className="main-cont">
     <div className="dt-b" id="box 1">
       <h2 className="month"></h2>
@@ -46,4 +52,7 @@ import "./Css/TimesheetDetailView.style.css";
       </div>
     </div>
   </div>
-</div>;
+</div>
+  )
+}
+

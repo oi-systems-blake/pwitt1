@@ -3,38 +3,80 @@ import "./AdminTimesheet.style.css";
 import { secure } from "../../Secret";
 import { useState, useEffect, createContext } from "react";
 import EmpByAdmin from "./components/EmpByAdmin";
+import { API, graphqlOperation } from "aws-amplify";
+import { listTimeSheets } from "../../graphql/queries";
+import EmpInfoByAdmin from "./components/EmpInfoByAdmin";
+
 
 export function AdminTimesheet() {
   let Airtable = require("airtable");
   let base = new Airtable({ apiKey: secure }).base("appqrmdFurNYpsDKm");
   let airTableApiEmployeeTable = base("Employees");
- 
- 
-  let [signedInAdmin, setSignedInAdmin] = useState("Ryan Miller")
-  let [empsBySup, setEmpsBySup] = useState([])
-  let [displayEmpsBySup, setDisplayEmpsBySup] = useState([])
+
+  let [signedInAdmin, setSignedInAdmin] = useState("Ryan Miller");
+  let [empsBySup, setEmpsBySup] = useState([]);
+  let [displayEmpsBySup, setDisplayEmpsBySup] = useState([]);
+  let [selectedEmp, setSelectedEmp] = useState("");
+  let [selectedEmpPin, setSelectedEmpPin] = useState("");
+  let [displayTimesheets, setDisplayTimesheets] = useState([])
+  let [startSearchTime, setStartSearchTime] = useState("")
+  let [endSearchTime, setEndSearchTime] = useState("")
+  
+  
+  useEffect(() => {
+    GrabEmpByAdmin();
+  }, []);
+
+  function callback(dataFromChild) {
+    setSelectedEmp(dataFromChild)
+    let result = empsBySup
+      .filter((emp) => {
+
+        return emp.fields["Preferred Name"]
+          .includes(dataFromChild);
+
+      })
+
+    setSelectedEmpPin(result[0].fields.pin);
+    GrabSelectedEmpsTimesheets(result[0].fields.pin)
+  }
 
 
-useEffect(() => {
-  GrabEmpByAdmin()
-},[])
+  
+  function GrabEmpByAdmin() {
+    const empRecords = airTableApiEmployeeTable
+      .select({
+        view: "AdminTimesheetView",
+        filterByFormula: "({Supervisor} = '" + signedInAdmin + "')",
+      })
+      .all();
+    empRecords.then((emp) => {
+      console.log("hey", emp);
+      setEmpsBySup(emp);
+      setDisplayEmpsBySup(emp);
+    });
+  }
 
-
-
-
-function GrabEmpByAdmin() {
-  const empRecords = airTableApiEmployeeTable
-  .select({
-    view: "AdminTimesheetView",
-    filterByFormula: "({Supervisor} = '" + signedInAdmin + "')",
-  })
-  .all();
-  empRecords.then((emp) => {
-  console.log("hey", emp);
-  setEmpsBySup(emp);
-  setDisplayEmpsBySup(emp);
-});
-}
+  function GrabSelectedEmpsTimesheets(correctPin) {
+    console.log(correctPin);
+    let tsGrabber = API.graphql(
+      graphqlOperation(listTimeSheets, {
+        filter: {
+          // dateNumber: {
+          //   between: [startSearchTime, endSearchTime],
+          // },
+          employeeID: {
+            contains: correctPin,
+          },
+        },
+      })
+    );
+    tsGrabber.then((x) => {
+      let y = x.data.listTimeSheets.items;
+      setDisplayTimesheets(x.data.listTimeSheets.items);
+      console.log(y)
+    });
+  }
 
   return (
     <div className="admin-timesheet-page">
@@ -43,11 +85,20 @@ function GrabEmpByAdmin() {
           <select className="pay-period" itemID="pay-period">
             <option>5/6/22-5/11/22</option>
           </select>
-          <header className="Employee-list-header">Employees</header>
+          <header className="Employee-list-header">
+            Employees
+            <br />
+            {selectedEmp}
+          </header>
+          
           {displayEmpsBySup.map((displayEmp) => (
-            <EmpByAdmin key={displayEmp.id} Emp={displayEmp} />
+            <EmpByAdmin
+              key={displayEmp.id}
+              Emp={displayEmp}
+              callback={callback}
+            />
           ))}
-        </div>
+   </div>
 
         <div className="sheets" id="tc">
           <div className="container-header">
@@ -58,55 +109,17 @@ function GrabEmpByAdmin() {
             <div className="header-label">OT</div>
           </div>
 
-          <div className="tsr">
-            <div className="row-label">5/1/22</div>
-            <div className="row-label">7:00AM</div>
-            <div className="row-label">4:00PM</div>
-            <div className="row-label">8</div>
-            <div className="row-label">0</div>
-          </div>
-          <div className="tsr">
-            <div className="row-label">5/1/22</div>
-            <div className="row-label">7:00AM</div>
-            <div className="row-label">4:00PM</div>
-            <div className="row-label">8</div>
-            <div className="row-label">0</div>
-          </div>
-          <div className="tsr">
-            <div className="row-label">5/1/22</div>
-            <div className="row-label">7:00AM</div>
-            <div className="row-label">4:00PM</div>
-            <div className="row-label">8</div>
-            <div className="row-label">0</div>
-          </div>
-          <div className="tsr">
-            <div className="row-label">5/1/22</div>
-            <div className="row-label">7:00AM</div>
-            <div className="row-label">4:00PM</div>
-            <div className="row-label">8</div>
-            <div className="row-label">0</div>
-          </div>
-          <div className="tsr">
-            <div className="row-label">5/1/22</div>
-            <div className="row-label">7:00AM</div>
-            <div className="row-label">4:00PM</div>
-            <div className="row-label">8</div>
-            <div className="row-label">0</div>
-          </div>
-          <div className="tsr">
-            <div className="row-label">5/1/22</div>
-            <div className="row-label">7:00AM</div>
-            <div className="row-label">4:00PM</div>
-            <div className="row-label">8</div>
-            <div className="row-label">0</div>
-          </div>
-          <div className="tsr">
-            <div className="row-label">5/1/22</div>
-            <div className="row-label">7:00AM</div>
-            <div className="row-label">4:00PM</div>
-            <div className="row-label">8</div>
-            <div className="row-label">0</div>
-          </div>
+
+           {displayTimesheets.map((timers) => (
+            
+            <EmpInfoByAdmin
+              key={timers.id}
+              timers={timers}
+            />
+          ))} 
+
+
+
 
           <div className="bottom-cap" id="tcf">
             <div className="total">Total</div>

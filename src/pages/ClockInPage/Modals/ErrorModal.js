@@ -11,7 +11,7 @@ function ClockInModal(props) {
         <div className="modal-container-content">
           {props.children}
           <h4 className="modal-text">
-            Pin Not Found. Please Call Joel Immediately No Matter the Hour
+            Pin Not Found. Please Try Again.
           </h4>
           <br />
           <h1 className="modal-time">{n}</h1>

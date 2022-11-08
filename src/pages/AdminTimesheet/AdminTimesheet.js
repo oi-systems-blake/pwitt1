@@ -6,6 +6,8 @@ import EmpByAdmin from "./components/EmpByAdmin";
 import { API, graphqlOperation } from "aws-amplify";
 import { listTimeSheets } from "../../graphql/queries";
 import EmpInfoByAdmin from "./components/EmpInfoByAdmin";
+import { format, startOfWeek, endOfWeek, previousMonday } from "date-fns";
+
 
 
 export function AdminTimesheet() {
@@ -21,10 +23,23 @@ export function AdminTimesheet() {
   let [displayTimesheets, setDisplayTimesheets] = useState([])
   let [startSearchTime, setStartSearchTime] = useState("")
   let [endSearchTime, setEndSearchTime] = useState("")
+  var [time, setTime] = useState(new Date());
   
-  
+  let startOfWeekAsString = format(startOfWeek(time), "yyyyMMdd")
+  let endOfWeekAsString = format(endOfWeek(time), "yyyyMMdd")
+  let actualStartOfWeek = parseFloat(startOfWeekAsString, 10)
+  let actualEndOfWeek = parseFloat(endOfWeekAsString, 10)
+  let stringPreviousMonday = format(previousMonday(startOfWeek(time)), "yyyyMMdd")
+  let actualPreviousMonday = parseFloat(stringPreviousMonday, 10)
+
+console.log(startOfWeekAsString)
+console.log(actualEndOfWeek)
+console.log(actualPreviousMonday)
+
+
   useEffect(() => {
     GrabEmpByAdmin();
+    setTime(new Date())
   }, []);
 
   function callback(dataFromChild) {
@@ -62,9 +77,9 @@ export function AdminTimesheet() {
     let tsGrabber = API.graphql(
       graphqlOperation(listTimeSheets, {
         filter: {
-          // dateNumber: {
-          //   between: [startSearchTime, endSearchTime],
-          // },
+          dateNumber: {
+            between: [actualStartOfWeek, actualEndOfWeek],
+           },
           employeeID: {
             contains: correctPin,
           },
@@ -83,10 +98,9 @@ export function AdminTimesheet() {
       <div className="main-container">
         <div className="page-left-container" id="plc">
           <select className="pay-period" itemID="pay-period">
-            <option>5/6/22-5/11/22</option>
+            <option>{actualStartOfWeek}-{actualEndOfWeek}</option>
           </select>
-          
-          <header className="employee-list-header">
+          <header className="Employee-list-header">
             Employees
             <br />
             {selectedEmp}

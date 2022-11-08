@@ -2,10 +2,6 @@ import React, { useEffect } from "react";
 
 export default function EmpInfoByAdmin({ ...props }) {
   let timer = props.timers;
-  useEffect(() => {
-    console.log("hi");
-    console.log(props.timers);
-  }, [props.timers]);
 let arr = ""
 let arr1 = ""
 let arr2 = ""

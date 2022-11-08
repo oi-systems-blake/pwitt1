@@ -49,29 +49,6 @@ export function ViewTimesheet() {
       setTimeSheets(y);
     });
   }
-  // TsTimeSheetGrab();
-
-  // console.log(timeSheets)
-  // const TimeSheet = [
-  //   {
-  //     month: "May",
-  //     dayNumber: 1,
-  //     dayName: "Monday",
-  //     hours: [
-  //       ["8:00:00", "12:00:00"],
-  //       ["13:00:00", "17:00:00"],
-  //     ],
-  //   },
-  //   {
-  //     month: "May",
-  //     dayNumber: 2,
-  //     dayName: "Tuesday",
-  //     hours: [
-  //       ["8:00:00", "12:00:00"],
-  //       ["13:00:00", "17:00:00"],
-  //     ],
-  //   },
-  // ];
 
   function timeSheetLastHour(arry) {
     let x = arry[arry.length - 1];
@@ -81,11 +58,11 @@ export function ViewTimesheet() {
     return y;
   }
 
-  // console.log(authStatus);
+
+
   return (
-  
     <div className="view-ts-page">
-    <Link to="/viewdetailedts">
+      <Link to="/viewdetailedts">
         <button variant="outline-warning">Detail View</button>
       </Link>
       <div className="vts-cont" id="mc">
@@ -96,16 +73,21 @@ export function ViewTimesheet() {
 
         <div className="ts-cont" id="ts-b">
           <div className="ts-h"></div>
-          <div className="ts-r">
-            <div className="left-b">
-              Mon
-              <div className="mm-dd">May 1st</div>
+
+          
+            <div className="ts-r">
+           
+              <div className="left-b">
+               day
+                <div className="mm-dd">May 1st</div>
+              </div>
+              <div className="right-b">
+                7:00AM - 4:00PM
+                <div className="hh-mm">8h 00m</div>
+              </div>
             </div>
-            <div className="right-b">
-              7:00AM - 4:00PM
-              <div className="hh-mm">8h 00m</div>
-            </div>
-          </div>
+         
+
           <footer className="ts-f">
             <div className="weekly-total">40hrs 0min</div>
           </footer>

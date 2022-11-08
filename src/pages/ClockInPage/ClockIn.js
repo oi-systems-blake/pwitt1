@@ -12,12 +12,14 @@ import { createTimeSheet } from "../../graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 import { updateTimeSheet } from "../../graphql/mutations";
 import {startOfWeek} from 'date-fns'
+import ClockOutModal from "./Modals/ClockOutModal";
 
 export function ClockIn() {
   let [successTrigger, setSuccessTrigger] = useState(false);
   let [pin, setPin] = useState("");
   let [employeeName, setEmployeeName] = useState("");
   let [errorTrigger, setErrorTrigger] = useState(false);
+  let [outTrigger, setOutTrigger] = useState(false);
   let [sideTrigger, setSideTrigger] = useState(false);
   let [viewTimeSheetInfo, setViewTimeSheetInfo] = useState({});
   var [time, setTime] = useState(new Date());
@@ -60,9 +62,10 @@ export function ClockIn() {
     modal(true);
     setTimeout(() => {
       modal(false);
+      setPin("");
+      setEmployeeName("");
     }, 2500);
-    setPin("");
-    setEmployeeName("");
+
   }
 
   function EmpCheck() {
@@ -78,6 +81,7 @@ export function ClockIn() {
       if (value.length === 0) {
         console.log("employee not found");
         setEmployeeName("");
+        triggerStatement(setErrorTrigger)
         return "";
       } else {
         console.log("we found an employee sir");
@@ -142,6 +146,7 @@ console.log(x.data.listTimeSheets.items)
     );
     newTimeSheet.then((x) => {
       console.log(x);
+      triggerStatement(setSuccessTrigger)
     });
   }
   function ClockedInTimeSheet(status, punches, sheetID) {
@@ -162,6 +167,7 @@ console.log(x.data.listTimeSheets.items)
     });
     updatedSheet.then((x) => {
       console.log(x);
+      triggerStatement(setSuccessTrigger)
     });
   }
 
@@ -186,6 +192,7 @@ console.log(x.data.listTimeSheets.items)
     });
     updatedSheet.then((x) => {
       console.log(x);
+      triggerStatement(setOutTrigger)
     });
   }
 
@@ -223,6 +230,7 @@ console.log(x.data.listTimeSheets.items)
 
       if (sheetLength === 0) {
         console.log("no timesheets please clock in first");
+        triggerStatement(setErrorTrigger)
       } else if (sheetLength > 0) {
         console.log(pin);
         navigate("/viewtimesheet",{ state: { pin, time } } )
@@ -241,7 +249,7 @@ console.log(x.data.listTimeSheets.items)
         console.log(value.length);
         if (value.length === 0) {
           console.log("employee not found");
-          setEmployeeName("");
+          triggerStatement(setErrorTrigger)
           return "";
         } else {
           console.log("we found an employee sir");
@@ -296,6 +304,11 @@ console.log(x.data.listTimeSheets.items)
           trigger={successTrigger}
           setTrigger={setSuccessTrigger}
         />
+        <ClockOutModal
+        name={employeeName}
+        trigger={outTrigger}
+        setTrigger={setOutTrigger}/>
+
         <ErrorModal trigger={errorTrigger} setTrigger={setErrorTrigger} />
 
         <SideButton trigger={sideTrigger} setTrigger={setSideTrigger} />

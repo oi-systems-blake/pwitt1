@@ -15,8 +15,12 @@ export const createTimeSheet = /* GraphQL */ `
       monthNumber
       year
       punches
+      punch
       dateNumber
       dateName
+      AWSDate
+      TestDateStamp
+      AWSStamp
       total_hours
       employeeID
       TimeSheetEntrys {
@@ -53,8 +57,12 @@ export const updateTimeSheet = /* GraphQL */ `
       monthNumber
       year
       punches
+      punch
       dateNumber
       dateName
+      AWSDate
+      TestDateStamp
+      AWSStamp
       total_hours
       employeeID
       TimeSheetEntrys {
@@ -91,8 +99,12 @@ export const deleteTimeSheet = /* GraphQL */ `
       monthNumber
       year
       punches
+      punch
       dateNumber
       dateName
+      AWSDate
+      TestDateStamp
+      AWSStamp
       total_hours
       employeeID
       TimeSheetEntrys {

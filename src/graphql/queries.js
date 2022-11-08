@@ -12,8 +12,12 @@ export const getTimeSheet = /* GraphQL */ `
       monthNumber
       year
       punches
+      punch
       dateNumber
       dateName
+      AWSDate
+      TestDateStamp
+      AWSStamp
       total_hours
       employeeID
       TimeSheetEntrys {
@@ -52,8 +56,12 @@ export const listTimeSheets = /* GraphQL */ `
         monthNumber
         year
         punches
+        punch
         dateNumber
         dateName
+        AWSDate
+        TestDateStamp
+        AWSStamp
         total_hours
         employeeID
         TimeSheetEntrys {

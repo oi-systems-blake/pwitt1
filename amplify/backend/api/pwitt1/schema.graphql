@@ -11,8 +11,12 @@ type TimeSheet @model @auth(rules: [{allow: public}]) {
   monthNumber: Int
   year: Int
   punches: [String]
+  punch: String
   dateNumber: Int
   dateName: String
+  AWSDate: AWSDateTime
+  TestDateStamp: AWSTimestamp
+  AWSStamp: [AWSTimestamp]
   total_hours: String
   employeeID: String
   TimeSheetEntrys: [TimeSheetEntrys] @hasMany(indexName: "byTimeSheet", fields: ["id"])

@@ -40,6 +40,7 @@ export default function DetailSheetInfo({ ...props }) {
      return "Clocked In";
     }
   }
+  
 console.log(value.total_hours)
 
 function renderIfNull(totalHrs){
@@ -70,6 +71,12 @@ function renderIfNull(totalHrs){
         </div>
         <div className="ts-val">{renderIfNull(value.total_hours)}</div>
       </div>
+      <div className="bottom-cap" id="tcf">
+      <div className="total">Total</div>
+      <div className="weekly-total">12</div>
+      <div className="weekly-ot-total">2</div>
+      <div></div>
+    </div>
     </div>
   );
 }

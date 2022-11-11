@@ -7,6 +7,7 @@ export default function SheetInfo({ ...props }) {
 
   function sheetSelected(event) {
     let sheetData = event.target.innerText
+    console.log(event)
     callback(sheetData);
   }
 
@@ -42,8 +43,12 @@ export default function SheetInfo({ ...props }) {
     if  (totalHrs === null){return "00:00:00"} else {return totalHrs}
   }
 
+function newButtonFunction(e){
+console.log(e.target)
+}
+
   return (
-    <div className="ts-r">
+    <div role="button" onClick={(event) => newButtonFunction(event)} key={value.dateNumber} className="ts-r">
       <div className="left-b">
         {capitalizeFirstLetter(value.dayName)}
         <div className="mm-dd">
@@ -56,7 +61,8 @@ export default function SheetInfo({ ...props }) {
         <div className="hh-mm">{renderIfNull(value.total_hours)}</div>
         
         </div>
-        <button className="vt-date-button" propy={1} role="button" onClick={(event) => sheetSelected(event)}>{value.dateNumber}</button>
+        <button className="vt-date-button" role="button" onClick={(event) => sheetSelected(event)}>{value.dateNumber}</button>
+
     </div>
   );
 }

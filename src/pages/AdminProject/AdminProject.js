@@ -47,7 +47,7 @@ export function AdminProject() {
     let runit = base("Projects")
       .select({
         maxRecords: 10000,
-        view: "Blake's View",
+        view: "inprogress",
       })
       .all();
     runit.then((project) => {

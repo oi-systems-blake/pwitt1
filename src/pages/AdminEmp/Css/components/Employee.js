@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Employee({emp}) {
   return (
-    <>
+    
     <div className="emp-row">
     <div className="emp-row-left">
       <div className="emp-row-emp-name">{emp.fields["Full Name"]} </div>
@@ -12,6 +12,5 @@ export default function Employee({emp}) {
       <div className="emp-row-hours">32h12m</div>
     </div>
   </div>
-  </>
   )
 }

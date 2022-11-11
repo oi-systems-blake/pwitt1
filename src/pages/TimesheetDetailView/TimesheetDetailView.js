@@ -76,7 +76,7 @@ function detailCallback(){
           <div className="tse-val">7:00AM</div>
           <div className="tse-val">8:00AM</div>
         </div>
-      <button onClick={() => {navigate("/")}} className='tsdv-wvb'>Weekly View</button>
+      <button onClick={() => {navigate("/viewtimesheet", { state: { pin } })}} className='tsdv-wvb'>Weekly View</button>
     </div>
   </div>
 </div>

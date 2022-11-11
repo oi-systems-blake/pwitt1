@@ -72,6 +72,10 @@ console.log(actualPreviousMonday)
     });
   }
 
+
+
+
+  
   function GrabSelectedEmpsTimesheets(correctPin) {
     console.log(correctPin);
     let tsGrabber = API.graphql(
@@ -103,7 +107,7 @@ console.log(actualPreviousMonday)
           <header className="Employee-list-header">
             Employees
             <br />
-            {selectedEmp}
+            
           </header>
           
           {displayEmpsBySup.map((displayEmp) => (
@@ -115,7 +119,7 @@ console.log(actualPreviousMonday)
           ))}
    </div>
 
-        <div className="sheets" id="tc">
+        <div className="sheets" id="tc">{selectedEmp}
           <div className="container-header">
             <div className="header-label">Date</div>
             <div className="header-label">In</div>

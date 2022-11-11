@@ -5,13 +5,12 @@ import ClockInModal from "./Modals/ClockInModal";
 import ErrorModal from "./Modals/ErrorModal";
 import { secure } from "../../Secret";
 import SideButton from "./Modals/SideButton";
-import { format } from "date-fns";
 import { listTimeSheets } from "../../graphql/queries";
 import { createTimeSheet } from "../../graphql/mutations";
 
 import { API, graphqlOperation } from "aws-amplify";
 import { updateTimeSheet } from "../../graphql/mutations";
-import {startOfWeek} from 'date-fns'
+import { startOfWeek, differenceInSeconds, format } from "date-fns";
 import ClockOutModal from "./Modals/ClockOutModal";
 
 export function ClockIn() {
@@ -28,31 +27,33 @@ export function ClockIn() {
   let base = new Airtable({ apiKey: secure }).base("appqrmdFurNYpsDKm");
   let airTableApiEmployeeTable = base("Employees");
 
- let navigate = useNavigate();
+  let navigate = useNavigate();
 
   useEffect(() => {
     var timer = setInterval(() => setTime(new Date()), 1000);
     return function cleanup() {
       clearInterval(timer);
     };
-  },[]);
- 
- 
-  const monthNumber = format(time, "M")
+  }, []);
+
+  const monthNumber = format(time, "M");
   const monthName = format(time, "MMMM").toLowerCase();
   const year = format(time, "yyyy");
   const dayNumber = format(time, "d");
   const dayName = format(time, "EEEE").toLowerCase();
   const actualDateWords = format(time, "PPP eeee").toLowerCase();
-  const actualDate = format(time,"yyyyMMdd")
-  let actualDateNumber = parseFloat(actualDate, 10)
+  const actualDate = format(time, "yyyyMMdd");
+  let actualDateNumber = parseFloat(actualDate, 10);
   const exactTime = format(time, "pp");
-  let startOfWeekAsString = format(startOfWeek(time), "yyyyMMdd")
-  let actualStartOfWeek = parseFloat(startOfWeekAsString, 10)
+  let startOfWeekAsString = format(startOfWeek(time), "yyyyMMdd");
+  let actualStartOfWeek = parseFloat(startOfWeekAsString, 10);
+  let awsDate = time.toISOString();
+  // console.log(awsDate)
+  // console.log(exactTime)
   //  console.log(actualStartOfWeek)
   //  console.log(actualDateNumber)
   // console.log(typeof tryMe)
- // let thisn = new Date(actualDateFormatted).getTime()
+  // let thisn = new Date(actualDateFormatted).getTime()
   // console.log(actualDateWords)
   const handlePinInputChange = (event) => {
     setPin(event.target.value);
@@ -65,7 +66,6 @@ export function ClockIn() {
       setPin("");
       setEmployeeName("");
     }, 2500);
-
   }
 
   function EmpCheck() {
@@ -81,7 +81,7 @@ export function ClockIn() {
       if (value.length === 0) {
         console.log("employee not found");
         setEmployeeName("");
-        triggerStatement(setErrorTrigger)
+        triggerStatement(setErrorTrigger);
         return "";
       } else {
         console.log("we found an employee sir");
@@ -106,8 +106,8 @@ export function ClockIn() {
     );
     checker.then((x) => {
       let sheetLength = x.data.listTimeSheets.items.length;
-console.log(sheetLength)
-console.log(x.data.listTimeSheets.items)
+      console.log(sheetLength);
+      console.log(x.data.listTimeSheets.items);
       if (sheetLength === 0) {
         console.log("no timesheets please create one");
         TimeSheetCreate();
@@ -115,14 +115,15 @@ console.log(x.data.listTimeSheets.items)
         let sheetStatus = x.data.listTimeSheets.items[0].clock_status;
         let sheetPunches = x.data.listTimeSheets.items[0].punches;
         let sheetId = x.data.listTimeSheets.items[0].id;
+        let sheetPunch = x.data.listTimeSheets.items[0].punch;
         console.log("1 timesheet please add a punch");
         console.log("status is", sheetStatus, "pucnhes are", sheetPunches);
         if (sheetStatus === true) {
-          ClockedInTimeSheet(sheetStatus, sheetPunches, sheetId);
+          ClockedInTimeSheet(sheetStatus, sheetPunches, sheetId, sheetPunch);
           console.log("sheet status is true");
         } else if (sheetStatus === false) {
           console.log(" add stamp to new array");
-          ClockedOutTimeSheet(sheetStatus, sheetPunches, sheetId);
+          ClockedOutTimeSheet(sheetStatus, sheetPunches, sheetId, sheetPunch);
         }
       }
     });
@@ -139,27 +140,36 @@ console.log(x.data.listTimeSheets.items)
       year: year,
       dateNumber: actualDateNumber,
       employeeID: pin,
-      dateName: actualDateWords
+      dateName: actualDateWords,
+      AWSDate: awsDate,
+      punch: awsDate,
     };
     const newTimeSheet = API.graphql(
       graphqlOperation(createTimeSheet, { input: TimerDetails })
     );
     newTimeSheet.then((x) => {
       console.log(x);
-      triggerStatement(setSuccessTrigger)
+      triggerStatement(setSuccessTrigger);
     });
   }
-  function ClockedInTimeSheet(status, punches, sheetID) {
+  function ClockedInTimeSheet(status, punches, sheetID, punch) {
     let newStatus = false;
     let oldLastPunch = punches.slice(-1);
     let lastIndex = punches.length - 1;
     let arr3 = oldLastPunch.concat(exactTime);
     punches[lastIndex] = arr3;
+    punch.push(awsDate);
+    console.log(punch);
+
+let totalHours = totalHoursForDay(punch)
+console.log(totalHours)
 
     let newDetails = {
       id: sheetID,
       clock_status: newStatus,
       punches: punches,
+      punch: punch,
+      total_hours:totalHours
     };
     const updatedSheet = API.graphql({
       query: updateTimeSheet,
@@ -167,11 +177,17 @@ console.log(x.data.listTimeSheets.items)
     });
     updatedSheet.then((x) => {
       console.log(x);
-      triggerStatement(setSuccessTrigger)
+      triggerStatement(setOutTrigger);
     });
   }
+  //AWSDateTime =
 
-  function ClockedOutTimeSheet(status, punches, sheetID) {
+  //  let xy = new Date().toISOString()
+  //     console.log(xy)
+  //  let zz = Date(xy)
+  //  console.log(zz)
+
+  function ClockedOutTimeSheet(status, punches, sheetID, punch) {
     console.log(status);
     let newStatus = true;
     console.log("imported punches", punches);
@@ -179,11 +195,13 @@ console.log(x.data.listTimeSheets.items)
 
     let newPunches = punches.concat([exactTime]);
     console.log("new punches", newPunches);
-
+    punch.push(awsDate);
+    console.log(punch);
     let ClockedOutnewDetails = {
       id: sheetID,
       clock_status: newStatus,
       punches: newPunches,
+      punch: punch,
     };
 
     const updatedSheet = API.graphql({
@@ -192,7 +210,7 @@ console.log(x.data.listTimeSheets.items)
     });
     updatedSheet.then((x) => {
       console.log(x);
-      triggerStatement(setOutTrigger)
+      triggerStatement(setSuccessTrigger);
     });
   }
 
@@ -211,13 +229,12 @@ console.log(x.data.listTimeSheets.items)
   }
 
   function TimeSheetGrab() {
-   
- // let  dateTodayAndPassedWeek = []
+    // let  dateTodayAndPassedWeek = []
     let grabber = API.graphql(
       graphqlOperation(listTimeSheets, {
         filter: {
           dateNumber: {
-            between: [actualStartOfWeek,actualDateNumber]
+            between: [actualStartOfWeek, actualDateNumber],
           },
           employeeID: {
             contains: pin,
@@ -230,12 +247,12 @@ console.log(x.data.listTimeSheets.items)
 
       if (sheetLength === 0) {
         console.log("no timesheets please clock in first");
-        triggerStatement(setErrorTrigger)
+        triggerStatement(setErrorTrigger);
       } else if (sheetLength > 0) {
         console.log(pin);
-        navigate("/viewtimesheet",{ state: { pin, time } } )
+        navigate("/viewtimesheet", { state: { pin } });
       }
-  })
+    });
   }
   function ViewTimeSheetEmpCheck() {
     const tsrecords = airTableApiEmployeeTable
@@ -243,22 +260,51 @@ console.log(x.data.listTimeSheets.items)
         view: "All",
         filterByFormula: "({pin} = '" + pin + "')",
       })
-      .all()
-      tsrecords.then((value) => {
-        console.log(value);
-        console.log(value.length);
-        if (value.length === 0) {
-          console.log("employee not found");
-          triggerStatement(setErrorTrigger)
-          return "";
-        } else {
-          console.log("we found an employee sir");
-          setEmployeeName(value[0].fields["Preferred Name"]);
-          TimeSheetGrab()
-          return value;
-        }
-      })
+      .all();
+    tsrecords.then((value) => {
+      console.log(value);
+      console.log(value.length);
+      if (value.length === 0) {
+        console.log("employee not found");
+        triggerStatement(setErrorTrigger);
+        return "";
+      } else {
+        console.log("we found an employee sir");
+        setEmployeeName(value[0].fields["Preferred Name"]);
+        TimeSheetGrab();
+        return value;
+      }
+    });
   }
+  function sumOfSecondsArrays(arr1, arr2) {
+    let newOne1 = []
+    let newSum = 0
+    for (let i = 0; i < arr1.length; i++){
+      newOne1.push(differenceInSeconds(new Date(arr2[i]), new Date(arr1[i])))
+    newSum = newOne1.reduce((a, b) => a + b, 0)
+   console.log(newSum)
+    }
+  let formattedSum = new Date(newSum * 1000).toISOString().substr(11, 8);
+return formattedSum
+  }
+  function totalHoursForDay(punchesArray) {
+    let ins = [];
+    let outs = [];
+    
+    for (var i = 0; i < punchesArray.length; i++) {
+      if (i % 2 === 0) {
+        // index is even
+        ins.push(new Date(punchesArray[i]));
+      } else {
+        outs.push(new Date(punchesArray[i]));
+      }
+    }
+
+  return sumOfSecondsArrays(ins, outs)
+
+  }
+
+
 
   return (
     <div className="clock page">
@@ -286,17 +332,17 @@ console.log(x.data.listTimeSheets.items)
         </div>
         <div className="clock-timesheet-button">
           <button
-              id="clock-timesheet-button-specific"
-              onClick={ViewTimeSheetFunction}
-            >
-              View Timesheet
-            </button>
+            id="clock-timesheet-button-specific"
+            onClick={ViewTimeSheetFunction}
+          >
+            View Timesheet
+          </button>
         </div>
         <div className="admin-path-button">
-        <Link to="/admin">
-        <button variant="outline-warning">Admin Path</button>
-      </Link>
-          
+          <Link to="/admin">
+            <button variant="outline-warning">Admin Path</button>
+          </Link>
+
           <button variant="outline-warning">Sign Out</button>
         </div>
         <ClockInModal
@@ -305,9 +351,10 @@ console.log(x.data.listTimeSheets.items)
           setTrigger={setSuccessTrigger}
         />
         <ClockOutModal
-        name={employeeName}
-        trigger={outTrigger}
-        setTrigger={setOutTrigger}/>
+          name={employeeName}
+          trigger={outTrigger}
+          setTrigger={setOutTrigger}
+        />
 
         <ErrorModal trigger={errorTrigger} setTrigger={setErrorTrigger} />
 

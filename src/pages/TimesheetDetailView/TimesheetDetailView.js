@@ -1,37 +1,64 @@
 import React from 'react'
 import "./TimesheetDetailView.style.css"
+import { useLocation, useNavigate } from "react-router-dom";
+import { API, graphqlOperation } from "aws-amplify";
+import { useState, useEffect } from "react";
+import { listTimeSheets } from '../../graphql/queries';
+import DetailSheetInfo from './components/DetailSheetInfo';
 
 export default function TimesheetDetailView() {
- 
- 
- 
- 
+  const location = useLocation();
+  const navigate = useNavigate()
+  const pin = location.state.pin;
+  const sheet = location.state.dataFromChild
+
+  let [timeSheet, setTimeSheet] = useState([]);
+
+   useEffect(() => {
+    TimeSheetGrabByDateNumber(sheet)
+   }, []);
+
+
+   function TimeSheetGrabByDateNumber(dfc) {
+    let tsGrabber = API.graphql(
+      graphqlOperation(listTimeSheets, {
+        filter: {
+          dateNumber: {
+            eq: dfc,
+          },
+          employeeID: {
+            contains: pin,
+          },
+        },
+      })
+    );
+    tsGrabber.then((x) => {
+      console.log(x);
+  console.log(x.data.listTimeSheets.items)
+       setTimeSheet(x.data.listTimeSheets.items);
+    })
+  }
+
+function detailCallback(){
+
+}
+
+
   return (
     <div className="tsdv-page">
   <div className="main-cont">
-    <div className="dt-b" id="box 1">
-      <h2 className="month">May</h2>
-      <h3 className="day">1st</h3>
-    </div>
 
-    <div className="ts-c" id="bc-1">
-      <h3>Timesheet</h3>
-      <button className='tsdv-eb'>Edit</button>
-        <div className="tsdv-h">
-          <div className="ts-h-lab">Date</div>
-          <div className="ts-h-lab">Clock In</div>
-          <div className="ts-h-lab">Clock Out</div>
-          <div className="ts-h-lab">Total</div>
-        </div>
+        {Object.values(timeSheet).map((value, index) => (
+          <DetailSheetInfo
+          key={index}
+          value={value}
+          callback={detailCallback}
+         />
+         
+ ))}
 
-        <div className="tsdv-r">
-          <div className="ts-val">May 1st</div>
-          <div className="ts-val">7:00AM</div>
-          <div className="ts-val">4:00PM</div>
-          <div className="ts-val">8h 00m</div>
-        </div>
       
-    </div>
+    
 
     <div className="tse-c" id="bc-2">
       <h3>Timesheet Entry</h3>
@@ -49,7 +76,7 @@ export default function TimesheetDetailView() {
           <div className="tse-val">7:00AM</div>
           <div className="tse-val">8:00AM</div>
         </div>
-      <button className='tsdv-wvb'>Weekly View</button>
+      <button onClick={() => {navigate("/")}} className='tsdv-wvb'>Weekly View</button>
     </div>
   </div>
 </div>

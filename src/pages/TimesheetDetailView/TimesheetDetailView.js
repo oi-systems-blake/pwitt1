@@ -10,7 +10,7 @@ export default function TimesheetDetailView() {
   const location = useLocation();
   const navigate = useNavigate()
   const pin = location.state.pin;
-  const sheet = location.state.dataFromChild
+  const sheet = location.state.sheetData
 
   let [timeSheet, setTimeSheet] = useState([]);
 

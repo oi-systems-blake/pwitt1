@@ -6,7 +6,7 @@ export default function SheetInfo({ ...props }) {
   let callback = props.callback;
 
   function sheetSelected(event) {
-    let sheetData = event.target.innerText
+    let sheetData = event.currentTarget.attributes.propy.value
     console.log(event)
     callback(sheetData);
   }
@@ -44,11 +44,12 @@ export default function SheetInfo({ ...props }) {
   }
 
 function newButtonFunction(e){
-console.log(e.target)
+console.log(e.currentTarget.attributes.propy.value)
+console.log(e.target.attributes)
 }
 
   return (
-    <div role="button" onClick={(event) => newButtonFunction(event)} key={value.dateNumber} className="ts-r">
+    <div role="button" onClick={(event) => sheetSelected(event)} propy={value.dateNumber} className="ts-r">
       <div className="left-b">
         {capitalizeFirstLetter(value.dayName)}
         <div className="mm-dd">
@@ -61,7 +62,6 @@ console.log(e.target)
         <div className="hh-mm">{renderIfNull(value.total_hours)}</div>
         
         </div>
-        <button className="vt-date-button" role="button" onClick={(event) => sheetSelected(event)}>{value.dateNumber}</button>
 
     </div>
   );

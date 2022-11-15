@@ -10,7 +10,7 @@ import { createTimeSheet } from "../../graphql/mutations";
 
 import { API, graphqlOperation } from "aws-amplify";
 import { updateTimeSheet } from "../../graphql/mutations";
-import { startOfWeek, differenceInSeconds, format } from "date-fns";
+import { startOfWeek, differenceInSeconds, format, addSeconds } from "date-fns";
 import ClockOutModal from "./Modals/ClockOutModal";
 
 export function ClockIn() {
@@ -284,9 +284,14 @@ console.log(totalHours)
     newSum = newOne1.reduce((a, b) => a + b, 0)
    console.log(newSum)
     }
-  let formattedSum = new Date(newSum * 1000).toISOString().substr(11, 8);
+  
+  
+    let formattedSum = new Date(newSum * 1000).toISOString().substr(11, 8);
 return formattedSum
   }
+  
+  
+  
   function totalHoursForDay(punchesArray) {
     let ins = [];
     let outs = [];

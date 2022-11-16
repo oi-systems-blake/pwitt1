@@ -62,7 +62,7 @@ function renderIfNull(totalHrs){
           <div className="ts-h-lab">Clock Out</div>
           <div className="ts-h-lab">Total</div>
         </div>
-      </div>
+      
       <div className="tsdv-r">
         <div className="ts-val">{clockStatusDisplay(value.clock_status)} </div>
         <div className="ts-val">{makeIsoReadable(value.punch[0])}</div>
@@ -71,12 +71,8 @@ function renderIfNull(totalHrs){
         </div>
         <div className="ts-val">{renderIfNull(value.total_hours)}</div>
       </div>
-      <div className="bottom-cap" id="tcf">
-      <div className="total">Total</div>
-      <div className="weekly-total">12</div>
-      <div className="weekly-ot-total">2</div>
-      <div></div>
-    </div>
+      </div>
+     
     </div>
   );
 }

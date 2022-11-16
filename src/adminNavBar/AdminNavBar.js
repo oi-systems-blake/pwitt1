@@ -1,5 +1,5 @@
 
-import logo from "../resources/pwi-logo.jpg"
+import logo from "../resources/pwi-logo.png"
 import "./CustomNavBar.css"
 import { Outlet } from "react-router-dom";
 import { AdminEmp } from "../pages/AdminEmp/AdminEmp"

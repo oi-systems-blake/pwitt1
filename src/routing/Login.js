@@ -1,4 +1,4 @@
-import Logo from '../resources/pwi-logo.jpg'
+import Logo from '../resources/pwi-logo.png'
 import { Image } from '@aws-amplify/ui-react';
 import { View } from '@aws-amplify/ui-react';
 import { useTheme } from '@aws-amplify/ui-react';

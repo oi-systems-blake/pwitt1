@@ -1,3 +1,4 @@
+
 import { Button } from "@aws-amplify/ui-react";
 import "./AdminTimesheet.style.css";
 import { secure } from "../../Secret";
@@ -72,10 +73,6 @@ console.log(actualPreviousMonday)
     });
   }
 
-
-
-
-  
   function GrabSelectedEmpsTimesheets(correctPin) {
     console.log(correctPin);
     let tsGrabber = API.graphql(
@@ -99,12 +96,12 @@ console.log(actualPreviousMonday)
 
   return (
     <div className="admin-timesheet-page">
-      <div className="main-container">
+      <div className="page-container">
         <div className="page-left-container" id="plc">
           <select className="pay-period" itemID="pay-period">
             <option>{actualStartOfWeek}-{actualEndOfWeek}</option>
           </select>
-          <header className="Employee-list-header">
+          <header className="employee-list-top">
             Employees
             <br />
             
@@ -119,12 +116,13 @@ console.log(actualPreviousMonday)
           ))}
    </div>
 
-        <div className="sheets" id="tc">{selectedEmp}
+        <div className="sheets" id="tc">
+        <div className="selemp">{selectedEmp}</div>
           <div className="container-header">
             <div className="header-label">Date</div>
             <div className="header-label">In</div>
-            <div className="header-label">out</div>
-            <div className="header-label">total</div>
+            <div className="header-label">Out</div>
+            <div className="header-label">Total</div>
             <div className="header-label">OT</div>
           </div>
 
@@ -140,12 +138,12 @@ console.log(actualPreviousMonday)
 
 
 
-          <div className="bottom-cap" id="tcf">
+          <div className="cont-bot" id="tcf">
             <div className="total">Total</div>
             <div className="weekly-total">12</div>
             <div className="weekly-ot-total">2</div>
-            <div></div>
-          </div>
+            </div>
+            <button className="ats-approve">Approve</button>
         </div>
       </div>
     </div>

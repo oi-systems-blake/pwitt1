@@ -38,17 +38,17 @@ export function AdminEmp() {
 
   return (
     <div className="emp-page">
+     
+      <div className="emp-container">
       <Link to="/admin/employeedetails">
         <button variant="outline-warning">Detail View</button>
       </Link>
-      <div className="emp-container">
-        <div className="emp-row header">
-          <div className="emp-row-emp-name header">Name</div>
-          <div className="emp-row-right header">
-            <div className="emp-row-status header">Status</div>
-            <div className="emp-row-hours header">Hours</div>
+        <div className="emp-box-t">
+          <div className="emp-row-header-label">Name</div>
+            <div className="emp-row-header-label">Status</div>
+            <div className="emp-row-header-label">Hours</div>
           </div>
-        </div>
+        
         {emps.map((emp) => (
           <Employee key={emp.id} emp={emp} />
         ))}

@@ -38,6 +38,10 @@ export function ViewTimesheet() {
   let [sheetGrabSOW, setSheetGrabSOW] = useState(SOW);
   let [sheetGrabEOW, setSheetGrabEOW] = useState(EOW);
 
+  let arr3 = [];
+
+  timeSheets.map((x) => arr3.push(x.total_hours));
+
   useEffect(() => {
     setTime(new Date());
     TsTimeSheetGrab();
@@ -160,27 +164,23 @@ export function ViewTimesheet() {
     setSheetGrabEOW(newEOW);
     console.log("start", newSOW, "EOW", newEOW);
   }
+
   let newSum = 0;
   let arr1 = [];
   let arr2 = [];
- let totalarr = []
+
+  let totalarr = [];
+
   function WeeklyHourTotal(dayHours) {
-    console.log(dayHours);
-    arr1.push(dayHours);
-    console.log(arr1);
-
-    let sum = 0;
-    try {
-      var a = dayHours.split(":");
-      var seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
-      sum = sum + seconds;
-      arr2.push(seconds);
-      console.log(arr2);
-      newSum = arr2.reduce((a, b) => a + b, 0);
-      console.log(newSum);
-    } catch {}
-
-    return newSum;
+ let splitHours = dayHours.map((x) => {
+    let a = x.split(":");
+    let seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
+    
+       return seconds;
+    });
+    newSum = splitHours.reduce((a, b) => a + b, 0)
+    let formattedSum = new Date(newSum * 1000).toISOString().substr(11, 8);
+    return formattedSum
   }
 
   function filterDays(timers, dayers) {
@@ -264,9 +264,7 @@ export function ViewTimesheet() {
           {daysOfWeek.map((days) => filterDays(timeSheets, days))}
 
           <footer className="ts-f">
-            <div className="weekly-total">
-              {timeSheets.map((x) => WeeklyHourTotal(x.total_hours))}
-            </div>
+            <div className="weekly-total">{WeeklyHourTotal(arr3)}</div>
           </footer>
         </div>
       </div>

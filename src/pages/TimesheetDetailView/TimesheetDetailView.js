@@ -5,6 +5,8 @@ import { API, graphqlOperation } from "aws-amplify";
 import { useState, useEffect } from "react";
 import { listTimeSheets } from '../../graphql/queries';
 import DetailSheetInfo from './components/DetailSheetInfo';
+import AddEntryModal from './components/AddEntryModal';
+
 
 export default function TimesheetDetailView() {
   const location = useLocation();
@@ -13,6 +15,8 @@ export default function TimesheetDetailView() {
   const sheet = location.state.sheetData
 
   let [timeSheet, setTimeSheet] = useState([]);
+  let [addEntryTrigger, setAddEntryTrigger] = useState(false);
+
 
    useEffect(() => {
     TimeSheetGrabByDateNumber(sheet)
@@ -43,7 +47,9 @@ function detailCallback(){
 
 }
 
-
+function AddTSE(){
+  setAddEntryTrigger(true)
+}
   return (
     <div className="tsdv-page">
   <div className="main-cont">
@@ -62,7 +68,7 @@ function detailCallback(){
 
     <div className="tse-c" id="bc-2">
       <h3>Timesheet Entry</h3>
-      <button className='tsdv-aeb'>+Add Entry</button>
+      <button onClick={() => AddTSE()} className='tsdv-aeb'>+Add Entry</button>
         <div className="tse-h">
           <div className="tse-h-lab">Project</div>
           <div className="tse-h-lab">Travaler</div>
@@ -76,8 +82,10 @@ function detailCallback(){
           <div className="tse-val">7:00AM</div>
           <div className="tse-val">8:00AM</div>
         </div>
-      <button onClick={() => {navigate("/viewtimesheet", { state: { pin } })}} className='tsdv-wvb'>Weekly View</button>
+     
+        <button onClick={() => {navigate("/viewtimesheet", { state: { pin } })}} className='tsdv-wvb'>Weekly View</button>
     </div>
+    <AddEntryModal trigger={addEntryTrigger} setTrigger={setAddEntryTrigger} />
   </div>
 </div>
   )

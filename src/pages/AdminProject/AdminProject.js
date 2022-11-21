@@ -32,9 +32,7 @@ export function AdminProject() {
   const handleClick = () => {
     console.log("here are the projects", projects)
     let result = projects.filter((project) => {
-      console.log(
-        typeof (project.fields["Project ID (auto)"] + project.fields.Project)
-      );
+
       return (project.fields["Project ID (auto)"] + project.fields.Project)
         .toLowerCase()
         .includes(projectSearch);

@@ -55,7 +55,7 @@ function renderIfNull(totalHrs){
 
       <div className="ts-c" id="bc-1">
         <h3>Timesheet</h3>
-        <button className="tsdv-eb">Edit</button>
+        <button onClick={(e) => callback(e)} className="tsdv-eb">Edit</button>
         <div className="tsdv-h">
           <div className="ts-h-lab">Status</div>
           <div className="ts-h-lab">Clock In</div>

@@ -6,17 +6,20 @@ import { useState, useEffect } from "react";
 import { listTimeSheets } from '../../graphql/queries';
 import DetailSheetInfo from './components/DetailSheetInfo';
 import AddEntryModal from './components/AddEntryModal';
+import DetailEntryInfo from './components/DetailEntryInfo';
+import EditTSModal from './components/EditTSModal';
 
 
 export default function TimesheetDetailView() {
   const location = useLocation();
   const navigate = useNavigate()
   const pin = location.state.pin;
-  const sheet = location.state.sheetData
+  const sheet = location.state.sheetData;
+  const sheetID = location.state.sheetID
 
   let [timeSheet, setTimeSheet] = useState([]);
   let [addEntryTrigger, setAddEntryTrigger] = useState(false);
-
+  let [editEntryTrigger, setEditEntryTrigger] = useState(false);
 
    useEffect(() => {
     TimeSheetGrabByDateNumber(sheet)
@@ -43,11 +46,11 @@ export default function TimesheetDetailView() {
     })
   }
 
-function detailCallback(){
-
+function detailCallback(e){
+  setEditEntryTrigger(true)
 }
 
-function AddTSE(){
+function AddTSEButton(){
   setAddEntryTrigger(true)
 }
   return (
@@ -68,7 +71,7 @@ function AddTSE(){
 
     <div className="tse-c" id="bc-2">
       <h3>Timesheet Entry</h3>
-      <button onClick={() => AddTSE()} className='tsdv-aeb'>+Add Entry</button>
+      <button onClick={() => AddTSEButton()} className='tsdv-aeb'>+Add Entry</button>
         <div className="tse-h">
           <div className="tse-h-lab">Project</div>
           <div className="tse-h-lab">Travaler</div>
@@ -85,7 +88,8 @@ function AddTSE(){
      
         <button onClick={() => {navigate("/viewtimesheet", { state: { pin } })}} className='tsdv-wvb'>Weekly View</button>
     </div>
-    <AddEntryModal trigger={addEntryTrigger} setTrigger={setAddEntryTrigger} />
+    <AddEntryModal pin={pin} sheetID={sheetID} trigger={addEntryTrigger} setTrigger={setAddEntryTrigger} />
+    <EditTSModal pin={pin} sheetID={sheetID} trigger={editEntryTrigger} setTrigger={setEditEntryTrigger} />
   </div>
 </div>
   )

@@ -77,14 +77,14 @@ function AddTSEButton(){
       <button onClick={() => AddTSEButton()} className='tsdv-aeb'>+Add Entry</button>
         <div className="tse-h">
           <div className="tse-h-lab">Project</div>
-          <div className="tse-h-lab">Travaler</div>
+          <div className="tse-h-lab">Traveler</div>
           <div className="tse-h-lab">Start Time</div>
           <div className="tse-h-lab">End Time</div>
         </div>
 
         <div className="tse-r">
-          <div className="tse-val">Project Crain</div>
-          <div className="tse-val">Welding</div>
+          <div className="tse-val">19502 - Milestone Construction - Warsaw Midd. School Warsaw Middle School Lintels</div>
+          <div className="tse-val">Milestone Warsaw Midd. School - Lintels</div>
           <div className="tse-val">7:00AM</div>
           <div className="tse-val">8:00AM</div>
         </div>

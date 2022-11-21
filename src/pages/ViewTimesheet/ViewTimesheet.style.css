@@ -12,6 +12,7 @@ padding-top: 60px;
     align-items: center;
     gap: 20px;
     
+    
 }
 
 .vts-d-b {
@@ -20,6 +21,7 @@ padding-top: 60px;
     background-color: white;
     border-radius: 5px;
     text-align: center;
+    box-shadow: 5px 5px 5px black;
 }
 
 .ts-cont{
@@ -30,7 +32,8 @@ padding-top: 60px;
 .ts-h {
     background-color: white;
     border-radius: 5px 5px 0 0;
-    height: 35px
+    height: 35px;
+    box-shadow: 5px 5px 5px black;
 }
 
 .ts-r {
@@ -41,6 +44,9 @@ padding-top: 60px;
     display: inline-flex;
     flex-direction: row;
     width: 100%;
+    box-shadow: 5px 5px 5px black;
+    
+    
     
 }
 
@@ -53,15 +59,27 @@ padding-top: 60px;
 
 }
 
+.wt-lab {
+    width: 20%;
+    min-width: 80px;
+    justify-content: left;
+    text-align: center;
+}
+
 .right-b {
     margin-left: 10px;
     margin-top: 10px;
+    
 }
 
 .ts-f {
     background-color: white;
     border-radius: 0 0 5px 5px;
     height: 35px;
+    box-shadow: 5px 5px 5px black;
+    position: relative;
+    display: inline-flex;
+    width: 100%;
 }
 
 .month, .day {
@@ -71,4 +89,11 @@ padding-top: 60px;
 
 .vt-date-button {
      font-size: 0; 
+}
+
+.wt-val {
+    text-align: left;
+    width: auto;
+    padding-left: 10px;
+
 }

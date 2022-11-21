@@ -272,11 +272,12 @@ export function ViewTimesheet() {
 
           {daysOfWeek.map((days) => filterDays(timeSheets, days))}
 
-          <footer className="ts-f">
-            <div className="weekly-total">{WeeklyHourTotal(arr3)}</div>
-          </footer>
+          <div className="ts-f">
+          <div className="wt-lab">Total Hours:</div>
+            <div className="wt-val">{WeeklyHourTotal(arr3)}</div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -17,6 +17,8 @@ export default function AddEntryModal({ ...props }) {
   let [entryProjects, setEntryProjects] = useState([]);
   let [entryProjectSearch, setEntryProjectSearch] = useState("");
   let [entryDisplayProjects, setEntryDisplayProjects] = useState([]);
+  let [entryTravelers, setEntryTravelers] = useState([])
+
 
   var Airtable = require("airtable");
   var base = new Airtable({ apiKey: secure }).base("appdxUzxbQJdbR8fz");
@@ -66,7 +68,7 @@ export default function AddEntryModal({ ...props }) {
 
   function addTSE() {
     let AH = TSETimeCalculator(startValue, endValue);
-    
+
     const tseDetails = {
       start_time: startValue,
       stop_time: endValue,
@@ -93,7 +95,6 @@ export default function AddEntryModal({ ...props }) {
   function handleProjectSearchChange(event) {
     setEntryProjectSearch(event.target.value);
     let result = entryProjects.filter((project) => {
-
       return (project.fields["Project ID (auto)"] + project.fields.Project)
         .toLowerCase()
         .includes(entryProjectSearch);
@@ -101,17 +102,16 @@ export default function AddEntryModal({ ...props }) {
     setEntryDisplayProjects(result);
   }
 
-
-function FindTravByProj(e) {
-  let SelectedProjId = e.currentTarget.attributes.selectedproj.value
-console.log(SelectedProjId)
-}
+  function FindTravByProj(e) {
+    let SelectedProjId = e.currentTarget.attributes.selectedproj.value;
+    console.log(SelectedProjId);
+  }
 
   return props.trigger ? (
     <div className="modal-background">
       <div className="modal-container">
         <h1 className="tdv-aem-header">Add Time Sheet Entry</h1>
-         
+
         <TimePicker
           clearIcon={null}
           disableClock={true}
@@ -129,9 +129,6 @@ console.log(SelectedProjId)
         />
         <br />
 
-
-
-
         {TSETimeCalculator(startValue, endValue)}
         <br />
 
@@ -139,18 +136,22 @@ console.log(SelectedProjId)
           <button onClick={handleDropDownOpen}>Dropdown</button>
           {openProjectDropDown ? (
             <ul className="menu">
-            <input
-            className="aem-search-projects"
-            onChange={handleProjectSearchChange}
-          ></input>
+              <input
+                className="aem-search-projects"
+                onChange={handleProjectSearchChange}
+              ></input>
               {entryDisplayProjects.map((displayProject) => (
-                <li onClick={(event) => FindTravByProj(event)} selectedproj={displayProject.id} key={displayProject.id} project={displayProject}>
+                <li
+                  onClick={(event) => FindTravByProj(event)}
+                  selectedproj={displayProject.id}
+                  key={displayProject.id}
+                  project={displayProject}
+                >
                   {displayProject.fields["Project"]}
                 </li>
               ))}
             </ul>
           ) : null}
-         
         </div>
 
         {/*           <label>

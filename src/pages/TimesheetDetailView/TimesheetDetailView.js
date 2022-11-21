@@ -16,6 +16,10 @@ export default function TimesheetDetailView() {
   const pin = location.state.pin;
   const sheet = location.state.sheetData;
   const sheetID = location.state.sheetID
+  const sheetMonth = location.state.sheetmonth
+  const sheetDay = location.state.sheetday
+  const sheetYear =  location.state.sheetyear
+  const sheetPunch = location.state.sheetpunches
 
   let [timeSheet, setTimeSheet] = useState([]);
   let [addEntryTrigger, setAddEntryTrigger] = useState(false);
@@ -24,7 +28,6 @@ export default function TimesheetDetailView() {
    useEffect(() => {
     TimeSheetGrabByDateNumber(sheet)
    }, []);
-
 
    function TimeSheetGrabByDateNumber(dfc) {
     let tsGrabber = API.graphql(
@@ -89,7 +92,7 @@ function AddTSEButton(){
         <button onClick={() => {navigate("/viewtimesheet", { state: { pin } })}} className='tsdv-wvb'>Weekly View</button>
     </div>
     <AddEntryModal pin={pin} sheetID={sheetID} trigger={addEntryTrigger} setTrigger={setAddEntryTrigger} />
-    <EditTSModal pin={pin} sheetID={sheetID} trigger={editEntryTrigger} setTrigger={setEditEntryTrigger} />
+    <EditTSModal sheetpunch={sheetPunch} sheetmonth={sheetMonth} sheetday={sheetDay} sheetyear={sheetYear} pin={pin} sheetID={sheetID} trigger={editEntryTrigger} setTrigger={setEditEntryTrigger} />
   </div>
 </div>
   )

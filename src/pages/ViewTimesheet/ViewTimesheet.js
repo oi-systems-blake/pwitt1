@@ -140,7 +140,11 @@ export function ViewTimesheet() {
   function sheetSelected(event) {
     let sheetData = event.currentTarget.attributes.sheetdatenumber.value;
    let sheetID = event.currentTarget.attributes.sheetawsid.value;
-    navigate("/viewdetailedts", { state: { sheetID, sheetData, pin } });
+    let sheetmonth = event.currentTarget.attributes.sheetmonthnumber.value
+    let sheetday = event.currentTarget.attributes.sheetdaynumber.value
+    let sheetyear = event.currentTarget.attributes.sheetyearnumber.value
+    let sheetpunches = event.currentTarget.attributes.sheetpunch.value 
+    navigate("/viewdetailedts", { state: {sheetpunches, sheetyear, sheetmonth, sheetday, sheetID, sheetData, pin } });
   }
 
   function TsLeftArrowButton() {
@@ -193,6 +197,10 @@ export function ViewTimesheet() {
           onClick={(event) => sheetSelected(event)}
           sheetdatenumber={result[0].dateNumber}
           sheetawsid={result[0].id}
+          sheetmonthnumber={result[0].monthNumber}
+          sheetyearnumber={result[0].year}
+          sheetdaynumber={result[0].dayNumber}
+          sheetpunch={result[0].punch}
           className="ts-r"
         >
           <div className="left-b">

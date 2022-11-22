@@ -30,6 +30,9 @@ export const getTimeSheet = /* GraphQL */ `
           timesheetID
           travelersID
           EmployeeID
+          travelerName
+          projectName
+          projectID
           createdAt
           updatedAt
         }
@@ -85,6 +88,9 @@ export const getTimeSheetEntrys = /* GraphQL */ `
       timesheetID
       travelersID
       EmployeeID
+      travelerName
+      projectName
+      projectID
       createdAt
       updatedAt
     }
@@ -106,6 +112,9 @@ export const listTimeSheetEntrys = /* GraphQL */ `
         timesheetID
         travelersID
         EmployeeID
+        travelerName
+        projectName
+        projectID
         createdAt
         updatedAt
       }

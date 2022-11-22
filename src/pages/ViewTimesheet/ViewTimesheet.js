@@ -47,6 +47,11 @@ export function ViewTimesheet() {
     TsTimeSheetGrab();
   }, [sheetGrabSOW]);
 
+function addCurrentTimeToSheet(){
+
+}
+
+
   function TsTimeSheetGrab() {
     let tsGrabber = API.graphql(
       graphqlOperation(listTimeSheets, {
@@ -176,6 +181,7 @@ export function ViewTimesheet() {
   let totalarr = [];
 
   function WeeklyHourTotal(dayHours) {
+    console.log(dayHours)
  let splitHours = dayHours.map((x) => {
     let a = x.split(":");
     let seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
@@ -183,8 +189,9 @@ export function ViewTimesheet() {
        return seconds;
     });
     newSum = splitHours.reduce((a, b) => a + b, 0)
-    let formattedSum = new Date(newSum * 1000).toISOString().substr(11, 8);
-    return formattedSum
+    console.log(newSum)
+    // let formattedSum = new Date(newSum * 1000).toISOString().substr(11, 8);
+    // return formattedSum
   }
 
   function filterDays(timers, dayers) {

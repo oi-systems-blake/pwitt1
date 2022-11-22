@@ -17,6 +17,7 @@ export default function EditTSModal({ ...props }) {
   let currentTSSheetPunches = props.sheetpunch
   let cleanedPunches = splitPunch(currentTSSheetPunches)
   const navigate = useNavigate();
+   let newSum = 0
 console.log("year =",currentTSSheetYear, "month =", currentTSSheetMonth, "currentTSSheetDay", currentTSSheetDay)
 
   let [TSStartValue, setTSStartValue] = useState("10:00")
@@ -51,7 +52,7 @@ return sumOfSecondsArrays(ins, outs)
 
 function sumOfSecondsArrays(arr1, arr2) {
   let newOne1 = []
-  let newSum = 0
+  let newSum = 0;
   for (let i = 0; i < arr1.length; i++){
     newOne1.push(differenceInSeconds(new Date(arr2[i]), new Date(arr1[i])))
   newSum = newOne1.reduce((a, b) => a + b, 0)
@@ -75,6 +76,7 @@ function hmsToSecondsOnly(str) {
 
   return s;
 }
+
 
 function splitPunch(punchesArray){
 let newArr = punchesArray.split(",")
@@ -105,6 +107,7 @@ function VDTSEditRequest(id, punch, hoursTotal,){
   });
 editedSheet.then((x) => {
   console.log(x);
+  window.location.reload()
 });
 }
 

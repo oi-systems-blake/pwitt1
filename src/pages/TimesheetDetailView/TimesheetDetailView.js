@@ -3,7 +3,7 @@ import "./TimesheetDetailView.style.css"
 import { useLocation, useNavigate } from "react-router-dom";
 import { API, graphqlOperation } from "aws-amplify";
 import { useState, useEffect } from "react";
-import { listTimeSheets } from '../../graphql/queries';
+import { listTimeSheets, listTimeSheetEntrys } from '../../graphql/queries';
 import DetailSheetInfo from './components/DetailSheetInfo';
 import AddEntryModal from './components/AddEntryModal';
 import DetailEntryInfo from './components/DetailEntryInfo';
@@ -24,10 +24,30 @@ export default function TimesheetDetailView() {
   let [timeSheet, setTimeSheet] = useState([]);
   let [addEntryTrigger, setAddEntryTrigger] = useState(false);
   let [editEntryTrigger, setEditEntryTrigger] = useState(false);
+  let [entryList, setEntryList]= useState([]);
 
    useEffect(() => {
     TimeSheetGrabByDateNumber(sheet)
+    EntryGrabByDateNumber()
    }, []);
+
+
+   function EntryGrabByDateNumber(){
+    let entryGrabber = API.graphql(
+      graphqlOperation(listTimeSheetEntrys, {
+        filter: {
+          timesheetID: {
+            eq: sheetID,
+          },
+        },
+      })
+    );
+      entryGrabber.then((results) => {
+console.log("hey bud", results)
+setEntryList(results.data.listTimeSheetEntrys.items)
+      })
+   }
+
 
    function TimeSheetGrabByDateNumber(dfc) {
     let tsGrabber = API.graphql(
@@ -51,6 +71,10 @@ export default function TimesheetDetailView() {
 
 function detailCallback(e){
   setEditEntryTrigger(true)
+}
+
+function EntryCallback(e){
+  console.log(e)
 }
 
 function AddTSEButton(){
@@ -82,12 +106,14 @@ function AddTSEButton(){
           <div className="tse-h-lab">End Time</div>
         </div>
 
-        <div className="tse-r">
-          <div className="tse-val">19502 - Milestone Construction - Warsaw Midd. School Warsaw Middle School Lintels</div>
-          <div className="tse-val">Milestone Warsaw Midd. School - Lintels</div>
-          <div className="tse-val">7:00AM</div>
-          <div className="tse-val">8:00AM</div>
-        </div>
+        {Object.values(entryList).map((entries, index) => (
+          <DetailEntryInfo
+          key={index}
+          entries={entries}
+          entrycallback={EntryCallback}
+         />
+         
+ ))}
      
         <button onClick={() => {navigate("/viewtimesheet", { state: { pin } })}} className='tsdv-wvb'>Weekly View</button>
     </div>

@@ -33,6 +33,9 @@ export const createTimeSheet = /* GraphQL */ `
           timesheetID
           travelersID
           EmployeeID
+          travelerName
+          projectName
+          projectID
           createdAt
           updatedAt
         }
@@ -75,6 +78,9 @@ export const updateTimeSheet = /* GraphQL */ `
           timesheetID
           travelersID
           EmployeeID
+          travelerName
+          projectName
+          projectID
           createdAt
           updatedAt
         }
@@ -117,6 +123,9 @@ export const deleteTimeSheet = /* GraphQL */ `
           timesheetID
           travelersID
           EmployeeID
+          travelerName
+          projectName
+          projectID
           createdAt
           updatedAt
         }
@@ -141,6 +150,9 @@ export const createTimeSheetEntrys = /* GraphQL */ `
       timesheetID
       travelersID
       EmployeeID
+      travelerName
+      projectName
+      projectID
       createdAt
       updatedAt
     }
@@ -160,6 +172,9 @@ export const updateTimeSheetEntrys = /* GraphQL */ `
       timesheetID
       travelersID
       EmployeeID
+      travelerName
+      projectName
+      projectID
       createdAt
       updatedAt
     }
@@ -179,6 +194,9 @@ export const deleteTimeSheetEntrys = /* GraphQL */ `
       timesheetID
       travelersID
       EmployeeID
+      travelerName
+      projectName
+      projectID
       createdAt
       updatedAt
     }

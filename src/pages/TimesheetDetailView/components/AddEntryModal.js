@@ -9,16 +9,19 @@ export default function AddEntryModal({ ...props }) {
   let currentSheetID = props.sheetID;
   let currentSheetPin = props.pin;
   let ADMSetTrigger = props.setTrigger;
-  let [startValue, setStartValue] = useState("10:00");
+
+  let [startValue, setStartValue] = useState("8:00");
   let [endValue, setEndValue] = useState("12:00");
   let [travelerID, setTravelerID] = useState("");
+  let [travelerName, setTravelerName] = useState("")
+  let [tseProjectName, setTSEProjectName] = useState("")
+  let [tseProjectID, setTSEProjectID] = useState("")
 
-  const [openProjectDropDown, setOpenProjectDropDown] = React.useState(false);
+  const [openProjectDropDown, setOpenProjectDropDown] = useState(false);
   let [entryProjects, setEntryProjects] = useState([]);
   let [entryProjectSearch, setEntryProjectSearch] = useState("");
   let [entryDisplayProjects, setEntryDisplayProjects] = useState([]);
-  let [entryTravelers, setEntryTravelers] = useState([])
-
+  let [entryTravelers, setEntryTravelers] = useState([]);
 
   var Airtable = require("airtable");
   var base = new Airtable({ apiKey: secure }).base("appdxUzxbQJdbR8fz");
@@ -75,7 +78,11 @@ export default function AddEntryModal({ ...props }) {
       allocated_hours: AH,
       EmployeeID: currentSheetPin,
       travelersID: travelerID,
+      travelerName: travelerName,
       timesheetID: currentSheetID,
+      projectName: tseProjectName,
+      projectID: tseProjectID
+
     };
     const newTimeSheetEntry = API.graphql(
       graphqlOperation(createTimeSheetEntrys, { input: tseDetails })
@@ -83,6 +90,7 @@ export default function AddEntryModal({ ...props }) {
     newTimeSheetEntry.then((x) => {
       console.log(x);
       ADMSetTrigger(false);
+      window.location.reload()
     });
   }
 
@@ -102,16 +110,73 @@ export default function AddEntryModal({ ...props }) {
     setEntryDisplayProjects(result);
   }
 
+
+
+
   function FindTravByProj(e) {
     let SelectedProjId = e.currentTarget.attributes.selectedproj.value;
-    console.log(SelectedProjId);
+    let SelectedProjName = e.currentTarget.attributes.name.value;
+    setTSEProjectName(SelectedProjName);
+    setTSEProjectID(SelectedProjId)
+    let TravFinder = base("Travelers")
+      .select({
+        maxRecords: 10000,
+        view: "inprogress",
+        filterByFormula: "({prid} = '" + SelectedProjId + "')",
+      })
+      .all();
+    TravFinder.then((value) => setEntryTravelers(value));
+  }
+
+function FoundTraveler(e){
+let SelectedTravelerId = e.currentTarget.attributes.selectedtrav.value;
+let SelectedTravelerName = e.currentTarget.attributes.name.value;
+setTravelerID(SelectedTravelerId)
+setTravelerName(SelectedTravelerName)
+setOpenProjectDropDown(false)
+}
+
+  function ATSEDropDown(projectState, travelerState) {
+    if (travelerState.length === 0) {
+      console.log(projectState);
+      return projectState.map((displayProject) => {
+        return (
+          <li
+            onClick={(event) => FindTravByProj(event)}
+            selectedproj={displayProject.id}
+            key={displayProject.id}
+            project={displayProject}
+            name={displayProject.fields["Project"]}
+          >
+            {displayProject.fields["Project"]}
+          </li>
+        );
+      });
+    } else {
+      return travelerState.map((displayTraveler) => {
+        return (
+          <li
+            onClick={(event) => FoundTraveler(event)}
+            selectedtrav={displayTraveler.id}
+            key={displayTraveler.id}
+            traveler={displayTraveler}
+            name={displayTraveler.fields["Name"]}
+          >
+            {displayTraveler.fields["Name"]}
+          </li>
+        );
+      });
+
+    }
   }
 
   return props.trigger ? (
     <div className="modal-background">
       <div className="modal-container">
         <h1 className="tdv-aem-header">Add Time Sheet Entry</h1>
-
+        {travelerName}
+        <br/>
+        <label>Start Time:</label>
         <TimePicker
           clearIcon={null}
           disableClock={true}
@@ -131,7 +196,7 @@ export default function AddEntryModal({ ...props }) {
 
         {TSETimeCalculator(startValue, endValue)}
         <br />
-
+      
         <div className="dropdown">
           <button onClick={handleDropDownOpen}>Dropdown</button>
           {openProjectDropDown ? (
@@ -140,16 +205,7 @@ export default function AddEntryModal({ ...props }) {
                 className="aem-search-projects"
                 onChange={handleProjectSearchChange}
               ></input>
-              {entryDisplayProjects.map((displayProject) => (
-                <li
-                  onClick={(event) => FindTravByProj(event)}
-                  selectedproj={displayProject.id}
-                  key={displayProject.id}
-                  project={displayProject}
-                >
-                  {displayProject.fields["Project"]}
-                </li>
-              ))}
+              {ATSEDropDown(entryDisplayProjects, entryTravelers)}
             </ul>
           ) : null}
         </div>

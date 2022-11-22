@@ -30,4 +30,7 @@ type TimeSheetEntrys @model @auth(rules: [{allow: public}]) {
   timesheetID: ID! @index(name: "byTimeSheet")
   travelersID: String
   EmployeeID: String
+  travelerName: String
+  projectName: String
+  projectID: String
 }

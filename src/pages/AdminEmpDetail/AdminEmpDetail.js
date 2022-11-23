@@ -1,92 +1,142 @@
-
 import "./AdminEmpDetails.style.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { secure } from "../../Secret";
+import ProfileCard from "./components/ProfileCard";
+import AETimesheet from "./components/AETimesheet";
+import { startOfWeek, endOfWeek } from "date-fns";
+import { API, graphqlOperation } from "aws-amplify";
+import { listTimeSheets } from "../../graphql/queries";
 
+export function AdminEmpDetail({ ...props }) {
+  const location = useLocation();
+  let adminEmpPin = location.state.targetPin;
+  var Airtable = require("airtable");
+  var base = new Airtable({ apiKey: secure }).base("appqrmdFurNYpsDKm");
 
-export function AdminEmpDetail() {
+  let [timesheetObject, setTimesheetObject]= useState({});
+  let [profileCardObject, setProfileCardObject] = useState({});
+  var [time, setTime] = useState(new Date());
 
-    return (
-        <>
-        <div className="emp-detail-page">
-           <div className="page-container">
-             <div className="profile-card">
-           <div className="profile-card-header"><b>John Doe</b></div>
-             
-             <div className="Profile-card-row"><b>First Name</b>
-             <div className="name-field">John</div>
-           </div>
-           <div className="Profile-card-row"><b>Last Name</b>
-           <div className="name-field">Doe</div>
-         </div>
-         <div className="Profile-card-row"><b>Manager</b>
-         <div className="name-field">Jeff Miller</div>
-       </div>
-       <div className="Profile-card-row"><b>Phone Number</b>
-       <div className="name-field">314-888-8888</div>
-     </div>
-     <div className="Profile-card-row"><b>Email</b>
-     <div className="name-field">jdoe@pwi.com</div>
-   </div>
-   <div className="Profile-card-row"><b>Clock Status</b>
-   <div className="name-field">Clocked-in</div>
- </div>
-           </div>
+  let awsDate = time.toISOString();
+  let AWSStartOfWeek = startOfWeek(new Date(awsDate));
+  let AWSEndOfWeek = endOfWeek(new Date(awsDate));
+  let SOW = AWSStartOfWeek.toISOString();
+  let EOW = AWSEndOfWeek.toISOString();
 
-<div className="timesheet">
-<div className="header-bar">May 1st-6th</div>
-<div className="record">
-<div className="date-box">Mon
-<div className="month-day">May 1st</div>
-</div>
-<div className="hours-box">7:00AM - 4:00PM
-<div className="daily-total">8h 00m</div>
-</div>
-</div>
-<div className="record">
-<div className="date-box">Mon
-<div className="month-day">May 1st</div>
-</div>
-<div className="hours-box">7:00AM - 4:00PM
-<div className="daily-total">8h 00m</div>
-</div>
-</div>
-<div className="record">
-<div className="date-box">Mon
-<div className="month-day">May 1st</div>
-</div>
-<div className="hours-box">7:00AM - 4:00PM
-<div className="daily-total">8h 00m</div>
-</div>
-</div>
-<div className="record">
-<div className="date-box">Mon
-<div className="month-day">May 1st</div>
-</div>
-<div className="hours-box">7:00AM - 4:00PM
-<div className="daily-total">8h 00m</div>
-</div>
-</div>
-<div className="record">
-<div className="date-box">Mon
-<div className="month-day">May 1st</div>
-</div>
-<div className="hours-box">7:00AM - 4:00PM
-<div className="daily-total">8h 00m</div>
-</div>
-</div>
-<footer className="footer-bar">
-<div className="sheet-totals">40hrs 0min</div>
-</footer>
+  let [sheetGrabSOW, setSheetGrabSOW] = useState(SOW);
+  let [sheetGrabEOW, setSheetGrabEOW] = useState(EOW);
 
+  function EmpProfileCardGetter(currentPin) {
+    let adminEmpProfileGetter = base("Employees")
+      .select({
+        // Selecting the first 3 records in Brandon's Jobs:
+        maxRecords: 10,
+        view: "Active Employees",
+        filterByFormula: "({pin} = '" + currentPin + "')",
+      })
+      .all();
+    adminEmpProfileGetter.then((x) => {
+      setProfileCardObject(x);
+    });
+  }
 
-
-</div>
-</div>
-
-
-
-           </div>
-           
-           
-        </>
+  function EmpTimesheetGetter(currentPin) {
+    let etsGrabber = API.graphql(
+      graphqlOperation(listTimeSheets, {
+        filter: {
+          AWSDate: {
+            between: [sheetGrabSOW, sheetGrabEOW],
+          },
+          employeeID: {
+            contains: currentPin,
+          },
+        },
+      })
     );
+    etsGrabber.then((x) => {
+      console.log(x);
+      let y = x.data.listTimeSheets.items;
+      setTimesheetObject(y);
+    });
+  }
+
+  useEffect(() => {
+    EmpProfileCardGetter(adminEmpPin);
+    EmpTimesheetGetter(adminEmpPin)
+  }, [sheetGrabSOW]);
+
+  function aeinfoCallback(e) {
+    console.log(e);
+  }
+
+  let daysOfWeek = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
+
+function filterSheets(sheets, daysOfWeek){
+  let result = sheets.filter((sheet) => sheet.dayName === daysOfWeek);
+  if (result.length > 0){
+return(
+  <div className="record">
+  <div className="date-box">
+    Mon
+    <div className="month-day">May 1st</div>
+  </div>
+  <div className="hours-box">
+    7:00AM - 4:00PM
+    <div className="daily-total">8h 00m</div>
+  </div>
+</div>
+)
+
+  } else {
+    return(
+      <div className="record">
+      <div className="date-box">
+        DOW
+        <div className="month-day">month day</div>
+      </div>
+      <div className="hours-box">
+        00AM - 00PM
+        <div className="daily-total">00m</div>
+      </div>
+    </div>
+    )
+  }
+
+
+}
+
+
+  console.log(adminEmpPin);
+  return (
+    <div className="emp-detail-page">
+      <div className="page-container">
+        {Object.values(profileCardObject).map((info, index) => (
+          <ProfileCard
+            key={index}
+            aeinfo={info}
+            aeentrycallback={aeinfoCallback}
+          />
+        ))}
+        <div className="timesheet">
+        <div className="header-bar">May 1st-6th</div>
+
+        {daysOfWeek.map((days) => filterSheets(timesheetObject, days))}
+        <footer className="footer-bar">
+          <div className="sheet-totals">40hrs 0min</div>
+        </footer>
+      </div>
+  
+
+      </div>
+    </div>
+  );
 }

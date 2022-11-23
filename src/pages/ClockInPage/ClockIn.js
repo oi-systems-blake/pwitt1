@@ -344,7 +344,7 @@ return formattedSum
           </button>
         </div>
         <div className="admin-path-button">
-          <Link to="/admin">
+          <Link to="/admin/employee">
             <button variant="outline-warning">Admin Path</button>
           </Link>
 

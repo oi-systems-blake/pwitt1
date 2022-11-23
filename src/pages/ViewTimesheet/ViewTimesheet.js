@@ -223,7 +223,7 @@ function addCurrentTimeToSheet(){
           </div>
         </div>
       );
-    }
+    } else{
     return (
       <div
         role="button"
@@ -239,7 +239,7 @@ function addCurrentTimeToSheet(){
           <div className="hh-mm">00:00:00</div>
         </div>
       </div>
-    );
+    );}
   }
 
   return (
@@ -279,6 +279,9 @@ function addCurrentTimeToSheet(){
 
           {daysOfWeek.map((days) => filterDays(timeSheets, days))}
 
+        
+        
+        
           <div className="ts-f">
           <div className="wt-lab">Total Hours:</div>
             <div className="wt-val">{WeeklyHourTotal(arr3)}</div>

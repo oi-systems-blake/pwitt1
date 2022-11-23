@@ -1,5 +1,5 @@
 import React, { useState, } from "react";
-import "./ClockinModal.style.css";
+import "./ClockOutModal.css";
 
 function ClockOutModal(props) {
   let d = new Date();
@@ -8,14 +8,15 @@ function ClockOutModal(props) {
 
 
   return props.trigger ? (
-    <div className="modal-background">
-      <div className="modal-container">
-      <div className="modal-container-content">
+    <div className="clockout-modal-background">
+      <div className="clockout-modal-container">
         {props.children}
-        <h4 className="modal-text">Hello <br/>{props.name}! <br/>Clocked out At {n}</h4><br/>
-        <h1 className="modal-time"></h1>
-        <h1 className="pinner"></h1>
-        </div>
+        <div className="clockout-modal-text">Hello <br/>{props.name}! <br/>Clocked out At {n}</div><br/>
+        <div className="clockout-modal-text-mobile">Hello <br/>{props.name}! <br/>Clocked out At {n}</div><br/>
+
+        <div className="modal-time"></div>
+        <div className="pinner"></div>
+        
       </div>
     </div>
   ) : (

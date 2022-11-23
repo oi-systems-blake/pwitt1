@@ -104,6 +104,7 @@ function AddTSEButton(){
           <div className="tse-h-lab">Traveler</div>
           <div className="tse-h-lab">Start Time</div>
           <div className="tse-h-lab">End Time</div>
+          
         </div>
 
         {Object.values(entryList).map((entries, index) => (

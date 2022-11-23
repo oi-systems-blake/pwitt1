@@ -8,15 +8,15 @@ function ClockInModal(props) {
 
 
   return props.trigger ? (
-    <div className="modal-background">
-      <div className="modal-container">
-      <div className="modal-container-content">
+    <div className="clockin-modal-background">
+      <div className="clockin-modal-container">
         {props.children}
-        <h4 className="modal-text">Hello <br/>{props.name}! <br/>Clocked in At {n}</h4><br/>
-        <h1 className="modal-time"></h1>
-        <h1 className="pinner"></h1>
+        <div className="clockin-modal-text">Hello <br/>{props.name}! <br/>Clocked in At {n}</div><br/>
+        <div className="clockin-modal-text-mobile">Hello <br/>{props.name}! <br/>Clocked in At {n}</div><br/>
+        <div className="modal-time"></div>
+        <div className="pinner"></div>
         </div>
-      </div>
+      
     </div>
   ) : (
     ""

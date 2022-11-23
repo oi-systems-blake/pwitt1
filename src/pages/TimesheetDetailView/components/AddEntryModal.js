@@ -173,32 +173,38 @@ setOpenProjectDropDown(false)
   return props.trigger ? (
     <div className="modal-background">
       <div className="modal-container">
-        <h1 className="tdv-aem-header">Add Time Sheet Entry</h1>
+        <h3 className="tdv-aem-header">Add Time Sheet Entry</h3>
         {travelerName}
         <br/>
+        <div className="modal-selector-cont">
+        <div id="tp-start">
         <label>Start Time:</label>
+        
         <TimePicker
           clearIcon={null}
           disableClock={true}
           onChange={setStartValue}
           value={startValue}
         />
-        <br />
-
+        </div>
+        <div id="tp-end">
         <label>End Time:</label>
+        
         <TimePicker
           clearIcon={null}
           disableClock={true}
           onChange={setEndValue}
           value={endValue}
         />
-        <br />
-
+        </div>
+        </div>
+        <div className="entry-total-cont">
+        <div className="entry-total">Total: 
         {TSETimeCalculator(startValue, endValue)}
-        <br />
-      
-        <div className="dropdown">
-          <button onClick={handleDropDownOpen}>Dropdown</button>
+        </div>
+        </div>
+        
+          <button className="drop-down" onClick={handleDropDownOpen}>Dropdown</button>
           {openProjectDropDown ? (
             <ul className="menu">
               <input
@@ -208,7 +214,7 @@ setOpenProjectDropDown(false)
               {ATSEDropDown(entryDisplayProjects, entryTravelers)}
             </ul>
           ) : null}
-        </div>
+        
 
         {/*           <label>
             Traveler ID:
@@ -218,7 +224,7 @@ setOpenProjectDropDown(false)
               onChange={(e) => setTravelerID(e.target.value)}
             />
           </label> */}
-        <button type="submit" onClick={handleSubmit}></button>
+        <button className="sub-btn" type="submit" onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   ) : (

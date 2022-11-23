@@ -1,21 +1,25 @@
 import React, { useState } from "react";
-import "./ClockinModal.style.css";
+import "./ErrorModal.css";
 
 function ClockInModal(props) {
   let d = new Date();
   let n = d.toLocaleTimeString();
 
   return props.trigger ? (
-    <div className="modal-background">
-      <div className="modal-container">
-        <div className="modal-container-content">
+    <div className="error-modal-background">
+      <div className="error-modal-container">
           {props.children}
-          <h4 className="modal-text">
-            Pin Not Found. Please Try Again.
-          </h4>
+          <div className="error-modal-text">
+            <p>Pin Not Found.</p>
+            <p>Please Try Again.</p>
+          </div>
+          <div className="error-modal-text-mobile">
+          <p>Pin Not Found.</p>
+            <p>Please Try Again.</p>
+          </div>
           <br />
-          <h1 className="modal-time">{n}</h1>
-        </div>
+          
+        
       </div>
     </div>
   ) : (

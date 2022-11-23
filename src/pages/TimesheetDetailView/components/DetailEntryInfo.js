@@ -52,8 +52,8 @@ let currentTSEID = e.currentTarget.attributes.tseid.value
       <button
       tseid={entries.id}
         onClick={(e) => deleteTSEButton(e)}
-        className="tse-val-delete-button"
-      ></button>
+        className="delete-button"
+      >x</button>
     </div>
   );
 }

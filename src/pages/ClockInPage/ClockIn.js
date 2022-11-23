@@ -312,14 +312,13 @@ return formattedSum
 
 
   return (
-    <div className="clock page">
+    <div className="clock-page">
       <div className="clock-container">
-        <div className="clock-time-clock">
-          <div className="time-clock date-time">
-            <p className="time-clock time">{time.toLocaleTimeString()}</p>
-            <p>{time.toLocaleDateString()}</p>
-          </div>
+        <div className="clock-time-clock" id="ctc">{time.toLocaleTimeString()}</div>
+          <div className="time-clock-date-time" id="tcdt">{time.toLocaleDateString()}
         </div>
+        </div>
+        <div className="input-container">
         <div className="clock-clock-input">
           {/* <h1>{arrayLength}</h1> */}
           <input
@@ -331,7 +330,7 @@ return formattedSum
           ></input>
         </div>
         <div className="clock-clock-button">
-          <button className="clock special-button" onClick={ClockInFunction}>
+          <button id="clock-special-button" onClick={ClockInFunction}>
             Clock In/Out
           </button>
         </div>
@@ -343,8 +342,9 @@ return formattedSum
             View Timesheet
           </button>
         </div>
+        </div>
         <div className="admin-path-button">
-          <Link to="/admin/employee">
+          <Link to="/admin">
             <button variant="outline-warning">Admin Path</button>
           </Link>
 
@@ -366,7 +366,7 @@ return formattedSum
         <SideButton trigger={sideTrigger} setTrigger={setSideTrigger} />
         {/* <TimesheetCreator /> */}
         {/*  <TimeTest /> */}
-      </div>
+      
     </div>
   );
 }

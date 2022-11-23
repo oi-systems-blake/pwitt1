@@ -1,3 +1,4 @@
+import "./EditTSModal.css"
 import React from 'react'
 import { useState, useEffect } from "react";
 import TimePicker from "react-time-picker";
@@ -133,9 +134,9 @@ function etsmExitButton () {
 }
 
     return props.trigger ? (
-    <div className="modal-background">
-    <div className="modal-container">
-    <label>Start Time:</label>
+    <div className="EditTS-modal-background">
+    <div className="EditTS-modal-container">
+    <label className="etsm-lab">Start Time:</label>
     <TimePicker
     clearIcon={null}
     disableClock={true}
@@ -143,7 +144,7 @@ function etsmExitButton () {
     value={TSStartValue}
   />
   <br />
-  <label>End Time:</label>
+  <label className="etsm-lab">End Time:</label>
     <TimePicker
     clearIcon={null}
     disableClock={true}

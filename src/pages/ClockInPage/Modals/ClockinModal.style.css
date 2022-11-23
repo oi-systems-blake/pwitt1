@@ -1,4 +1,4 @@
-.modal-background {
+.clockin-modal-background {
     position: fixed;
     top: 0;
     left: 0;
@@ -10,20 +10,43 @@
     align-items: center;
 }
 
-.modal-container{
-position: relative;
-padding: 32px;
+.clockin-modal-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 width: 65%;
 height: 65%;
 background-color: gray;
-font-size: larger;
-}
 
-.modal-container-content {
-    padding-top: 17%;
 }
 
 
-.modal-text{
-    font-size: 40px;
+.clockin-modal-text{
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
 }
+
+.clockin-modal-text-mobile{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+@media (width <= 520px) {
+    .clockin-modal-text-mobile {
+      display: initial;
+    }
+    .clockin-modal-text {
+      display: none;
+    }
+  }
+  
+  @media (width >= 520px) {
+    .clockin-modal-text {
+      display: initial;
+    }
+    .clockin-modal-text-mobile {
+      display: none;
+    }
+  }

@@ -1,17 +1,20 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import TimePicker from "react-time-picker";
 import { createTimeSheetEntrys } from "../../../graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 import { secure } from "../../../Secret";
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import TextField from '@mui/material/TextField';
+import { formatISO, toDate, differenceInSeconds, startOfWeek, format, addSeconds } from 'date-fns'
+
 
 export default function AddEntryModal({ ...props }) {
   let currentSheetID = props.sheetID;
   let currentSheetPin = props.pin;
   let ADMSetTrigger = props.setTrigger;
 
-  let [startValue, setStartValue] = useState("8:00");
-  let [endValue, setEndValue] = useState("12:00");
+  let [startValue, setStartValue] = useState(new Date());
+  let [endValue, setEndValue] = useState(new Date());
   let [travelerID, setTravelerID] = useState("");
   let [travelerName, setTravelerName] = useState("")
   let [tseProjectName, setTSEProjectName] = useState("")
@@ -69,19 +72,20 @@ export default function AddEntryModal({ ...props }) {
     return finalResult;
   }
 
-  function addTSE() {
-    let AH = TSETimeCalculator(startValue, endValue);
+  function addTSE(x,y) {
+    let AH = TSETimeCalculator(x, y);
 
     const tseDetails = {
-      start_time: startValue,
-      stop_time: endValue,
+      start_time: x,
+      stop_time: y,
       allocated_hours: AH,
       EmployeeID: currentSheetPin,
       travelersID: travelerID,
       travelerName: travelerName,
       timesheetID: currentSheetID,
       projectName: tseProjectName,
-      projectID: tseProjectID
+      projectID: tseProjectID,
+      untitledfield: startValue
 
     };
     const newTimeSheetEntry = API.graphql(
@@ -94,12 +98,39 @@ export default function AddEntryModal({ ...props }) {
     });
   }
 
+  const convertTime12to24 = (time12h) => {
+    const [time, modifier] = time12h.split(' ');
+  
+    let [hours, minutes] = time.split(':');
+  
+    if (hours === '12') {
+      hours = '00';
+    }
+  
+    if (modifier === 'PM') {
+      hours = parseInt(hours, 10) + 12;
+    }
+  
+    return `${hours}:${minutes}`;
+  }
+
+function TimePickerFormatter(x){
+  console.log(x)
+  const AEexactStartTime = format(x, "p");
+let AEformatStartTime = convertTime12to24(AEexactStartTime)
+return AEformatStartTime
+}
+
+  
   function handleSubmit(event) {
     // 👇️ prevent page refresh
     event.preventDefault();
     console.log("form submitted ✅");
-    addTSE();
+    addTSE(TimePickerFormatter(startValue),TimePickerFormatter(endValue));
   }
+
+
+
   function handleProjectSearchChange(event) {
     setEntryProjectSearch(event.target.value);
     let result = entryProjects.filter((project) => {
@@ -178,29 +209,34 @@ setOpenProjectDropDown(false)
         <br/>
         <div className="modal-selector-cont">
         <div id="tp-start">
-        <label>Start Time:</label>
+        <label className="ate-lab">Start Time:</label>
         
-        <TimePicker
-          clearIcon={null}
-          disableClock={true}
-          onChange={setStartValue}
-          value={startValue}
-        />
+      
+         <TimePicker
+        label="Basic example"
+        value={startValue}
+        onChange={(newValue) => {
+          setStartValue(newValue);
+        }}
+        renderInput={(params) => <TextField {...params} />}
+      />
         </div>
         <div id="tp-end">
-        <label>End Time:</label>
+        <label className="ate-lab">End Time:</label>
         
         <TimePicker
-          clearIcon={null}
-          disableClock={true}
-          onChange={setEndValue}
-          value={endValue}
-        />
+        label="Basic example"
+        value={endValue}
+        onChange={(newValue) => {
+          setEndValue(newValue);
+        }}
+        renderInput={(params) => <TextField {...params} />}
+      />
         </div>
         </div>
         <div className="entry-total-cont">
         <div className="entry-total">Total: 
-        {TSETimeCalculator(startValue, endValue)}
+        { TSETimeCalculator(TimePickerFormatter(startValue), TimePickerFormatter(endValue)) }
         </div>
         </div>
         
@@ -224,7 +260,7 @@ setOpenProjectDropDown(false)
               onChange={(e) => setTravelerID(e.target.value)}
             />
           </label> */}
-        <button className="sub-btn" type="submit" onClick={handleSubmit}>Submit</button>
+        <button className="sub-btn" type="submit" onClick={(e) => handleSubmit(e)}>Submit</button>
       </div>
     </div>
   ) : (

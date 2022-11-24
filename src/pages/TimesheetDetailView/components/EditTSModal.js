@@ -1,12 +1,16 @@
 import "./EditTSModal.css"
 import React from 'react'
 import { useState, useEffect } from "react";
-import TimePicker from "react-time-picker";
 import { createTimeSheetEntrys, updateTimeSheet} from "../../../graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
 import { secure } from "../../../Secret";
-import { formatISO, toDate, differenceInSeconds } from 'date-fns'
+import { formatISO, toDate, differenceInSeconds, startOfWeek, format, addSeconds } from 'date-fns'
 import { useLocation, useNavigate } from "react-router-dom";
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import TextField from '@mui/material/TextField';
+
+
+
 
 export default function EditTSModal({ ...props }) {
   let currentTSSheetID = props.sheetID;
@@ -26,6 +30,8 @@ let [TSEndValue, setTSEndValue] = useState("12:00")
 
 
 function TSETimeCalculator(startTime, endTime) {
+  
+
   let startTimeInSeconds = hmsToSecondsOnly(startTime);
   let endTimeInSeconds = hmsToSecondsOnly(endTime);
   let tseAllotedTime = endTimeInSeconds - startTimeInSeconds;
@@ -35,6 +41,23 @@ function TSETimeCalculator(startTime, endTime) {
   let finalResult = formattedAllotedTime.slice(0, -3);
   return finalResult;
 }
+
+const convertTime12to24 = (time12h) => {
+  const [time, modifier] = time12h.split(' ');
+
+  let [hours, minutes] = time.split(':');
+
+  if (hours === '12') {
+    hours = '00';
+  }
+
+  if (modifier === 'PM') {
+    hours = parseInt(hours, 10) + 12;
+  }
+
+  return `${hours}:${minutes}`;
+}
+
 
 function totalHoursForDay(punchesArray) {
   let ins = [];
@@ -113,10 +136,16 @@ editedSheet.then((x) => {
 }
 
 function etsmSaveButton () {
-  let newTotal = TSETimeCalculator(TSStartValue, TSEndValue)
+  const exactStartTime = format(TSStartValue, "p");
+  const exactEndTime = format(TSEndValue, "p");
+  
+let formatStartTime = convertTime12to24(exactStartTime)
+let formatEndTime = convertTime12to24(exactEndTime)
+
+  let newTotal = TSETimeCalculator(formatStartTime, formatEndTime)
 console.log(TSStartValue, TSEndValue, newTotal)
-let firstPunchFormatted = timeToIso(currentTSSheetYear, currentTSSheetMonth, currentTSSheetDay, TSStartValue)
-let lastPunchFormatted = timeToIso(currentTSSheetYear, currentTSSheetMonth, currentTSSheetDay, TSEndValue)
+let firstPunchFormatted = timeToIso(currentTSSheetYear, currentTSSheetMonth, currentTSSheetDay, formatStartTime)
+let lastPunchFormatted = timeToIso(currentTSSheetYear, currentTSSheetMonth, currentTSSheetDay, formatEndTime)
 console.log("fp", firstPunchFormatted, "lp", lastPunchFormatted, "nt", newTotal)
 console.log("punches", cleanedPunches)
 let lastIndex = cleanedPunches.length - 1;
@@ -127,7 +156,7 @@ let newTotalHours = totalHoursForDay(cleanedPunches)
 console.log(newTotalHours)
 
 VDTSEditRequest(currentTSSheetID, cleanedPunches, newTotalHours)
-}
+ }
 
 function etsmExitButton () {
   editTSSetTrigger(false)
@@ -138,22 +167,26 @@ function etsmExitButton () {
     <div className="EditTS-modal-container">
     <label className="etsm-lab">Start Time:</label>
     <TimePicker
-    clearIcon={null}
-    disableClock={true}
-    onChange={setTSStartValue}
-    value={TSStartValue}
-  />
+        label="Basic example"
+        value={TSStartValue}
+        onChange={(newValue) => {
+          setTSStartValue(newValue);
+        }}
+        renderInput={(params) => <TextField {...params} />}
+      />
   <br />
   <label className="etsm-lab">End Time:</label>
-    <TimePicker
-    clearIcon={null}
-    disableClock={true}
-    onChange={setTSEndValue}
-    value={TSEndValue}
-  />
+  <TimePicker
+        label="Basic example"
+        value={TSEndValue}
+        onChange={(newValue) => {
+          setTSEndValue(newValue);
+        }}
+        renderInput={(params) => <TextField {...params} />}
+      />
 
   <br />
-  <button onClick={etsmSaveButton} className="etsm-save-button">Save</button>
+  <button onClick={()=>etsmSaveButton()} className="etsm-save-button">Save</button>
   <br />
   <button onClick={etsmExitButton}  className="etsm-exit-button">Exit</button>
   <br />

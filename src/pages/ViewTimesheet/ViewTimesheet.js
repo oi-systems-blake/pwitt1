@@ -244,9 +244,7 @@ function addCurrentTimeToSheet(){
 
   return (
     <div className="view-ts-page">
-      <Link to="/viewdetailedts">
-        <button variant="outline-warning">Detail View</button>
-      </Link>
+      
       <div className="vts-cont" id="mc">
         <div className="vts-d-b" id="b-top">
           <button

@@ -8,9 +8,9 @@
 
 .main-cont {
     flex-direction: column;
-    width: 75%;
+    width: 65%;
     height: auto;
-    border: 1px solid red;
+    
     
 }
 

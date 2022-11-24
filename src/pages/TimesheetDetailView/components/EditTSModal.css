@@ -15,7 +15,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-width: 80%;
+width: 50%;
 height: 65%;
 background-color: gray;
 
@@ -27,6 +27,7 @@ background-color: gray;
     border-radius: 5px;
     height: 40px;
     width: 30%;
+    min-width: 223px;
     color: white;
     justify-items: center;
 }

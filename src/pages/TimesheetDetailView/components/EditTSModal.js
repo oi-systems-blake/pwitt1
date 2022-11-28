@@ -30,8 +30,6 @@ let [TSEndValue, setTSEndValue] = useState("12:00")
 
 
 function TSETimeCalculator(startTime, endTime) {
-  
-
   let startTimeInSeconds = hmsToSecondsOnly(startTime);
   let endTimeInSeconds = hmsToSecondsOnly(endTime);
   let tseAllotedTime = endTimeInSeconds - startTimeInSeconds;
@@ -135,9 +133,18 @@ editedSheet.then((x) => {
 });
 }
 
+function TimePickerFormatter(x){
+  console.log(x)
+  const AEexactStartTime = format(x, "p");
+let AEformatStartTime = convertTime12to24(AEexactStartTime)
+return AEformatStartTime
+}
+
 function etsmSaveButton () {
-  const exactStartTime = format(TSStartValue, "p");
-  const exactEndTime = format(TSEndValue, "p");
+
+
+  const exactStartTime = TimePickerFormatter(TSStartValue);
+  const exactEndTime = TimePickerFormatter(TSEndValue);
   
 let formatStartTime = convertTime12to24(exactStartTime)
 let formatEndTime = convertTime12to24(exactEndTime)

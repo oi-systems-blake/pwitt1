@@ -15,7 +15,6 @@ export default function AETimesheet({...props}) {
     "saturday",
   ];
   
-  
   return (
     <div className="timesheet">
     <div className="header-bar">May 1st-6th</div>

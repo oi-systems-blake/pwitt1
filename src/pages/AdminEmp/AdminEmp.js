@@ -64,9 +64,6 @@ export function AdminEmp() {
           className="search-projects"
           onChange={handleAirtableEmpsSearchChange}
         ></input>
-        <Link to="/admin/employeedetails">
-          <button variant="outline-warning">Detail View</button>
-        </Link>
         <div className="emp-box-t">
           <div className="emp-row-header-label">Name</div>
           <div className="emp-row-header-label">Phone</div>

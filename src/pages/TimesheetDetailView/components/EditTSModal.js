@@ -170,21 +170,21 @@ function etsmExitButton () {
 }
 
     return props.trigger ? (
-    <div className="EditTS-modal-background">
-    <div className="EditTS-modal-container">
+    <div className="ets-modal-background">
+    <div className="ets-modal-container">
     <label className="etsm-lab">Start Time:</label>
     <TimePicker
-        label="Basic example"
+        label="Enter Time"
         value={TSStartValue}
         onChange={(newValue) => {
           setTSStartValue(newValue);
         }}
         renderInput={(params) => <TextField {...params} />}
       />
-  <br />
+  <br/>
   <label className="etsm-lab">End Time:</label>
   <TimePicker
-        label="Basic example"
+        label="Enter Time"
         value={TSEndValue}
         onChange={(newValue) => {
           setTSEndValue(newValue);
@@ -192,11 +192,11 @@ function etsmExitButton () {
         renderInput={(params) => <TextField {...params} />}
       />
 
-  <br />
+  <br/>
   <button onClick={()=>etsmSaveButton()} className="etsm-save-button">Save</button>
-  <br />
+  <br/>
   <button onClick={etsmExitButton}  className="etsm-exit-button">Exit</button>
-  <br />
+  <br/>
   {}
     </div>
   </div>

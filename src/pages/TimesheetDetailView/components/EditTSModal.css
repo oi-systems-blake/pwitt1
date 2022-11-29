@@ -1,4 +1,4 @@
-.EditTS-modal-background {
+.ets-modal-background {
     position: fixed;
     top: 0;
     left: 0;
@@ -8,9 +8,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
-.EditTS-modal-container {
+.ets-modal-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -18,6 +19,7 @@
 width: 50%;
 height: 65%;
 background-color: gray;
+border-radius: 5px;
 
 }
 

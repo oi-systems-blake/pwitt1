@@ -126,36 +126,8 @@ h2, h3 {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-.sub-btn, .drop-down {
-    background-color: rgba(245,202,70,1);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-    height: 30px;
-    max-width: 100px;
-    color: white;
-    margin-top: 10px;
-    justify-items: center;
-    
-}
-
-.modal-container {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    
-}
-
-.entry-total-cont {
-    
-}
 
 .delete-button {
     font-size: x-small;  
 }
 
-.menu {
-    list-style: none;
-    overflow: scroll;
-}

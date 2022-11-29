@@ -1,4 +1,5 @@
 import React from "react";
+import "./AddEntryModal.css"
 import { useState, useEffect } from "react";
 import { createTimeSheetEntrys } from "../../../graphql/mutations";
 import { API, graphqlOperation } from "aws-amplify";
@@ -202,18 +203,15 @@ setOpenProjectDropDown(false)
   }
 
   return props.trigger ? (
-    <div className="modal-background">
-      <div className="modal-container">
+    <div className="atse-modal-background">
+      <div className="atse-modal-container">
         <h3 className="tdv-aem-header">Add Time Sheet Entry</h3>
-        {travelerName}
-        <br/>
-        <div className="modal-selector-cont">
-        <div id="tp-start">
-        <label className="ate-lab">Start Time:</label>
         
-      
+        <br/>
+        
+        <div id="tp-start">
          <TimePicker
-        label="Basic example"
+        label="Start Time"
         value={startValue}
         onChange={(newValue) => {
           setStartValue(newValue);
@@ -221,11 +219,10 @@ setOpenProjectDropDown(false)
         renderInput={(params) => <TextField {...params} />}
       />
         </div>
+        <br/>
         <div id="tp-end">
-        <label className="ate-lab">End Time:</label>
-        
         <TimePicker
-        label="Basic example"
+        label="End Time"
         value={endValue}
         onChange={(newValue) => {
           setEndValue(newValue);
@@ -233,22 +230,25 @@ setOpenProjectDropDown(false)
         renderInput={(params) => <TextField {...params} />}
       />
         </div>
-        </div>
+        
+        {travelerName}
         <div className="entry-total-cont">
-        <div className="entry-total">Total: 
+        <div className="entry-total">
         { TSETimeCalculator(TimePickerFormatter(startValue), TimePickerFormatter(endValue)) }
         </div>
         </div>
         
+        <br/>
+        
           <button className="drop-down" onClick={handleDropDownOpen}>Dropdown</button>
+          
+         
           {openProjectDropDown ? (
-            <ul className="menu">
-              <input
-                className="aem-search-projects"
-                onChange={handleProjectSearchChange}
-              ></input>
+            <><input className="aem-search-projects"
+            onChange={handleProjectSearchChange}>
+          </input><ul className="menu">
               {ATSEDropDown(entryDisplayProjects, entryTravelers)}
-            </ul>
+            </ul></>
           ) : null}
         
 
@@ -260,6 +260,7 @@ setOpenProjectDropDown(false)
               onChange={(e) => setTravelerID(e.target.value)}
             />
           </label> */}
+          <br/>
         <button className="sub-btn" type="submit" onClick={(e) => handleSubmit(e)}>Submit</button>
       </div>
     </div>

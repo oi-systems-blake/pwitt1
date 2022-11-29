@@ -1,7 +1,7 @@
 import "./AdminProject.style.css";
 import { Airtable, Table } from "airtable";
 import { useState, useEffect } from "react";
-import Project from "./components/Project";
+import {Project} from "./components/Project"
 import { secure } from "../../Secret";
 
 export function AdminProject() {
